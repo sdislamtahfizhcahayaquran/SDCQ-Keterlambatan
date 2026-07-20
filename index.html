@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pencatatan Keterlambatan Siswa — SD Islam Tahfizh Cahaya Qur'an</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --ink:#132a23;
+  --ink-soft:#5d6d67;
+  --bg:#f2f6f3;
+  --panel:#ffffff;
+  --line:#e2e8e4;
+  --teal-dark:#0c3a30;
+  --teal:#1d6b57;
+  --teal-light:#4c9c82;
+  --gold:#c99a3f;
+  --gold-soft:#f5ead0;
+  --success:#2f8f5d;
+  --success-soft:#dcf0e5;
+  --danger:#b3462c;
+  --radius:16px;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+.page{max-width:1080px;margin:0 auto;padding:18px 20px 60px;}
+
+/* Topbar */
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  background:var(--panel);border-radius:20px;padding:14px 22px;box-shadow:0 6px 24px rgba(12,58,48,.06);
+  margin-bottom:18px;
+}
+.brand{display:flex;align-items:center;gap:14px;}
+.logo-slot{
+  width:52px;height:52px;border-radius:14px;background:var(--teal-dark);color:#fff;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;overflow:hidden;
+}
+.logo-slot img{width:100%;height:100%;object-fit:cover;display:none;}
+.brand h1{font-size:17px;margin:0;color:var(--teal-dark);}
+.brand p{font-size:11.5px;margin:3px 0 0;color:var(--ink-soft);letter-spacing:.6px;text-transform:uppercase;font-weight:700;}
+.status-pill{
+  display:flex;align-items:center;gap:8px;background:var(--success-soft);color:var(--success);
+  padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;
+}
+.status-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 0 4px rgba(47,143,93,.18);}
+
+/* Hero */
+.hero{
+  position:relative;overflow:hidden;border-radius:24px;
+  background:linear-gradient(135deg, var(--teal-dark), var(--teal) 55%, var(--teal-light));
+  padding:48px 40px;color:#fff;margin-bottom:20px;
+}
+.hero-pattern{
+  position:absolute;inset:0;opacity:.14;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E");
+  background-size:80px 80px;
+}
+.hero-inner{position:relative;display:flex;gap:36px;flex-wrap:wrap;align-items:flex-start;}
+.hero-left{flex:1 1 320px;min-width:280px;}
+.eyebrow{
+  display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
+  padding:7px 14px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.6px;margin-bottom:18px;
+}
+.hero-left h2{font-size:38px;line-height:1.15;margin:0 0 14px;font-weight:800;}
+.hero-left p{font-size:14.5px;line-height:1.7;color:rgba(255,255,255,.85);max-width:440px;}
+
+.hero-card{
+  flex:1 1 300px;min-width:270px;max-width:360px;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:22px;backdrop-filter:blur(6px);
+}
+.hero-card h3{font-size:13px;text-transform:uppercase;letter-spacing:.6px;margin:0 0 16px;color:rgba(255,255,255,.9);}
+.step{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;margin-bottom:10px;}
+.step:last-child{margin-bottom:0;}
+.step .num{background:rgba(255,255,255,.16);color:#fff;font-weight:800;font-size:12px;padding:4px 9px;border-radius:8px;flex-shrink:0;}
+.step strong{display:block;font-size:13.5px;margin-bottom:2px;}
+.step p{margin:0;font-size:12px;color:rgba(255,255,255,.75);line-height:1.5;}
+
+/* Form section */
+.form-section{margin-top:-6px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:0 10px 30px rgba(12,58,48,.05);}
+.card h3{font-size:15px;color:var(--teal-dark);margin:0 0 18px;}
+
+.status-box{border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:16px;display:none;}
+.status-box.ok{display:block;background:var(--success-soft);color:var(--success);}
+.status-box.milestone{display:block;background:var(--gold-soft);color:#8a6417;}
+.status-box.err{display:block;background:#f6ddd3;color:var(--danger);}
+.status-box.loading{display:block;background:#eef1f6;color:var(--ink-soft);}
+
+.field{margin-bottom:16px;position:relative;}
+.field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:7px;}
+.field input[type=text]{
+  width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;font-size:14.5px;color:var(--ink);
+  background:#fbfcfb;
+}
+.field input:focus{outline:none;border-color:var(--teal);background:#fff;}
+.field input:disabled{background:#f1f2f3;color:#9aa2ae;}
+
+.combo{position:relative;}
+.combo-options{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--line);
+  border-radius:11px;max-height:220px;overflow-y:auto;z-index:30;box-shadow:0 10px 28px rgba(12,58,48,.12);
+}
+.combo-options.hidden{display:none;}
+.combo-opt{padding:10px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid #f1f2f5;}
+.combo-opt:last-child{border-bottom:none;}
+.combo-opt:hover, .combo-opt.hl{background:var(--bg);}
+.combo-opt.other{color:var(--teal);font-weight:700;}
+.combo-empty{padding:11px 14px;font-size:13px;color:var(--ink-soft);}
+
+.checkbox-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);margin-top:8px;}
+
+.btn-primary{
+  background:var(--teal-dark);color:#fff;padding:13px 20px;border:none;border-radius:11px;font-weight:700;
+  font-size:14.5px;width:100%;cursor:pointer;transition:.15s;
+}
+.btn-primary:hover:not(:disabled){background:var(--teal);}
+.btn-primary:disabled{background:#c7ccd4;cursor:not-allowed;}
+
+.footnote{font-size:11.5px;color:var(--ink-soft);text-align:center;margin-top:22px;}
+
+@media(max-width:640px){
+  .hero{padding:30px 22px;}
+  .hero-left h2{font-size:28px;}
+  .card{padding:20px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-slot" id="logoSlot">
+        <span id="logoFallback">CQ</span>
+        <!-- Ganti src="" di bawah dengan URL logo kamu -->
+        <img id="logo_sd" src="" alt="Logo SD"
+             onload="this.style.display='block'; document.getElementById('logoFallback').style.display='none';"
+             onerror="this.style.display='none';">
+      </div>
+      <div>
+        <h1>SD Islam Tahfizh Cahaya Qur'an</h1>
+        <p>Sistem Pencatatan Keterlambatan</p>
+      </div>
+    </div>
+    <div class="status-pill"><span class="dot"></span> Piket Aktif</div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <span class="eyebrow">MENUJU SEKOLAH TEPAT WAKTU</span>
+        <h2>Catat Keterlambatan<br>Siswa</h2>
+        <p>Pilih kelas dan nama siswa, tulis alasan keterlambatannya, lalu simpan — data langsung tercatat dan dihitung otomatis setiap bulan.</p>
+      </div>
+      <div class="hero-card">
+        <h3>Cara Kerja</h3>
+        <div class="step"><span class="num">01</span><div><strong>Pilih Kelas & Nama</strong><p>Cukup ketik, tidak perlu scroll panjang.</p></div></div>
+        <div class="step"><span class="num">02</span><div><strong>Pilih Alasan</strong><p>Dari daftar, atau tulis alasan lain.</p></div></div>
+        <div class="step"><span class="num">03</span><div><strong>Simpan Otomatis</strong><p>Tanggal & jam tercatat sendiri, terhitung tiap bulan.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="card">
+      <h3>Form Pencatatan</h3>
+      <div id="statusBox" class="status-box loading">Memuat data kelas & siswa…</div>
+
+      <div class="field">
+        <label>Kelas</label>
+        <div class="combo">
+          <input id="kelasSearch" type="text" placeholder="Ketik untuk cari kelas… (contoh: 7A)" autocomplete="off" disabled>
+          <div id="kelasOptions" class="combo-options hidden"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nama Siswa</label>
+        <div class="combo">
+          <input id="siswaSearch" type="text" placeholder="Pilih kelas terlebih dahulu…" autocomplete="off" disabled>
+          <div id="siswaOptions" class="combo-options hidden"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Alasan Terlambat</label>
+        <div class="combo">
+          <input id="alasanSearch" type="text" placeholder="Ketik minimal 1 huruf…" autocomplete="off" disabled>
+          <div id="alasanOptions" class="combo-options hidden"></div>
+        </div>
+        <div id="alasanLainnyaWrap" style="display:none;margin-top:8px;">
+          <input id="alasanLainnyaInput" type="text" placeholder="Tulis alasan lain di sini…">
+          <label class="checkbox-row">
+            <input type="checkbox" id="alasanLainnyaSaveChk" checked>
+            Tambahkan ke daftar pilihan alasan
+          </label>
+        </div>
+      </div>
+
+      <button id="saveBtn" class="btn-primary" disabled>Simpan Catatan</button>
+    </div>
+    <p class="footnote">Data tersimpan langsung ke Google Sheet sekolah — tanggal & jam otomatis dari server.</p>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  // Ganti dengan URL Web App Apps Script kamu (harus diakhiri /exec)
+  const API_URL = 'https://script.google.com/macros/s/AKfycbxbr6EAtWHTDbRjB2Sdua6SH4sSYq3z2DfGb0DF08lJwNlwalXOZvHstaKKEgVnTwcxCg/exec';
+
+  const OTHER_VAL = '__LAINNYA__';
+  let state = { kelas:[], siswa:[], alasan:[] };
+  let sel = { kelas:null, siswa:null, alasan:null };
+
+  const statusBox = document.getElementById('statusBox');
+  const kelasSearch = document.getElementById('kelasSearch');
+  const kelasOptions = document.getElementById('kelasOptions');
+  const siswaSearch = document.getElementById('siswaSearch');
+  const siswaOptions = document.getElementById('siswaOptions');
+  const alasanSearch = document.getElementById('alasanSearch');
+  const alasanOptions = document.getElementById('alasanOptions');
+  const alasanLainnyaWrap = document.getElementById('alasanLainnyaWrap');
+  const alasanLainnyaInput = document.getElementById('alasanLainnyaInput');
+  const saveBtn = document.getElementById('saveBtn');
+
+  function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function showStatus(cls, msg){ statusBox.className='status-box '+cls; statusBox.textContent=msg; }
+  function closeAllCombos(){ document.querySelectorAll('.combo-options').forEach(o=>o.classList.add('hidden')); }
+  document.addEventListener('click', (e)=>{ if(!e.target.closest('.combo')) closeAllCombos(); });
+
+  // ---- Load data from Apps Script API ----
+  fetch(API_URL + '?action=data')
+    .then(r=>r.json())
+    .then(data=>{
+      state.kelas = data.kelas || [];
+      state.siswa = data.siswa || [];
+      state.alasan = data.alasan || [];
+      kelasSearch.disabled = false;
+      alasanSearch.disabled = false;
+      kelasSearch.placeholder = 'Ketik untuk cari kelas… (contoh: 7A)';
+      statusBox.style.display='none';
+    })
+    .catch(err=>{
+      showStatus('err', 'Gagal memuat data dari server. Pastikan URL Apps Script benar dan sudah di-deploy ulang. (' + err.message + ')');
+    });
+
+  // ---- Kelas combo ----
+  function renderKelasOptions(query){
+    const q=(query||'').trim().toLowerCase();
+    const items = state.kelas.filter(k=>k.toLowerCase().includes(q));
+    if(!items.length){ kelasOptions.innerHTML='<div class="combo-empty">Kelas tidak ditemukan.</div>'; kelasOptions.classList.remove('hidden'); return; }
+    kelasOptions.innerHTML = items.map(k=>`<div class="combo-opt" data-val="${escapeHtml(k)}">${escapeHtml(k)}</div>`).join('');
+    kelasOptions.classList.remove('hidden');
+  }
+  kelasSearch.addEventListener('focus', ()=>{ if(!kelasSearch.disabled) renderKelasOptions(kelasSearch.value); });
+  kelasSearch.addEventListener('input', ()=>renderKelasOptions(kelasSearch.value));
+  kelasOptions.addEventListener('click', (e)=>{
+    const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
+    sel.kelas = opt.dataset.val;
+    kelasSearch.value = sel.kelas;
+    kelasOptions.classList.add('hidden');
+    sel.siswa=null; siswaSearch.value='';
+    siswaSearch.disabled=false;
+    siswaSearch.placeholder='Ketik nama siswa…';
+    updateSaveEnabled();
+  });
+
+  // ---- Siswa combo ----
+  function renderSiswaOptions(query){
+    if(!sel.kelas){ siswaOptions.classList.add('hidden'); return; }
+    const q=(query||'').trim().toLowerCase();
+    const items = state.siswa.filter(s=>s.kelas===sel.kelas && (q==='' || s.nama.toLowerCase().includes(q)));
+    if(!items.length){ siswaOptions.innerHTML='<div class="combo-empty">Belum ada siswa di kelas ini.</div>'; siswaOptions.classList.remove('hidden'); return; }
+    siswaOptions.innerHTML = items.map(s=>`<div class="combo-opt" data-val="${escapeHtml(s.nama)}">${escapeHtml(s.nama)}</div>`).join('');
+    siswaOptions.classList.remove('hidden');
+  }
+  siswaSearch.addEventListener('focus', ()=>{ if(!siswaSearch.disabled) renderSiswaOptions(siswaSearch.value); });
+  siswaSearch.addEventListener('input', ()=>renderSiswaOptions(siswaSearch.value));
+  siswaOptions.addEventListener('click', (e)=>{
+    const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
+    sel.siswa = opt.dataset.val;
+    siswaSearch.value = sel.siswa;
+    siswaOptions.classList.add('hidden');
+    updateSaveEnabled();
+  });
+
+  // ---- Alasan combo ----
+  function renderAlasanOptions(query){
+    const q=(query||'').trim().toLowerCase();
+    const items = q==='' ? state.alasan.slice() : state.alasan.filter(a=>a.toLowerCase().includes(q));
+    let html = items.map(a=>`<div class="combo-opt" data-val="${escapeHtml(a)}">${escapeHtml(a)}</div>`).join('');
+    if(!items.length) html = '<div class="combo-empty">Tidak ada yang cocok.</div>';
+    html += `<div class="combo-opt other" data-val="${OTHER_VAL}">+ Lainnya (tulis sendiri)</div>`;
+    alasanOptions.innerHTML = html;
+    alasanOptions.classList.remove('hidden');
+  }
+  alasanSearch.addEventListener('focus', ()=>{ if(!alasanSearch.disabled) renderAlasanOptions(alasanSearch.value); });
+  alasanSearch.addEventListener('input', ()=>renderAlasanOptions(alasanSearch.value));
+  alasanOptions.addEventListener('click', (e)=>{
+    const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
+    if(opt.dataset.val === OTHER_VAL){
+      sel.alasan = OTHER_VAL;
+      alasanSearch.value = 'Lainnya';
+      alasanLainnyaWrap.style.display='block';
+      alasanLainnyaInput.focus();
+    } else {
+      sel.alasan = opt.dataset.val;
+      alasanSearch.value = opt.dataset.val;
+      alasanLainnyaWrap.style.display='none';
+    }
+    alasanOptions.classList.add('hidden');
+    updateSaveEnabled();
+  });
+  alasanLainnyaInput.addEventListener('input', updateSaveEnabled);
+
+  // ---- Save ----
+  function currentAlasanText(){
+    if(sel.alasan === OTHER_VAL) return alasanLainnyaInput.value.trim();
+    return sel.alasan;
+  }
+  function updateSaveEnabled(){
+    const ok = sel.kelas && sel.siswa && sel.alasan && (sel.alasan!==OTHER_VAL || alasanLainnyaInput.value.trim().length>0);
+    saveBtn.disabled = !ok;
+  }
+
+  saveBtn.addEventListener('click', ()=>{
+    const alasanText = currentAlasanText();
+    if(!sel.kelas || !sel.siswa || !alasanText) return;
+    const payload = {
+      kelas: sel.kelas,
+      nama: sel.siswa,
+      alasan: alasanText,
+      simpanAlasanBaru: sel.alasan===OTHER_VAL && document.getElementById('alasanLainnyaSaveChk').checked
+    };
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Menyimpan…';
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // hindari CORS preflight
+      body: JSON.stringify(payload)
+    })
+      .then(r=>r.json())
+      .then(result=>{
+        saveBtn.textContent = 'Simpan Catatan';
+        if(!result.ok){ throw new Error(result.error || 'Gagal menyimpan'); }
+        if(result.milestone){
+          showStatus('milestone', '🔔 ' + payload.nama + ' sudah ' + result.count + 'x terlambat bulan ini — otomatis tercatat di sheet Rekap. Silakan buat surat manual & tandai status.');
+        } else {
+          showStatus('ok', 'Tersimpan. ' + payload.nama + ' sudah ' + result.count + 'x terlambat bulan ini.');
+        }
+        sel.siswa=null; sel.alasan=null;
+        siswaSearch.value=''; alasanSearch.value='';
+        alasanLainnyaWrap.style.display='none'; alasanLainnyaInput.value='';
+        if(payload.simpanAlasanBaru && state.alasan.indexOf(payload.alasan)===-1) state.alasan.push(payload.alasan);
+        updateSaveEnabled();
+      })
+      .catch(err=>{
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Simpan Catatan';
+        showStatus('err', 'Gagal menyimpan: ' + err.message);
+      });
+  });
+})();
+</script>
+</body>
+</html>
