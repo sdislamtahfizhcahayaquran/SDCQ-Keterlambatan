@@ -233,10 +233,25 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
   function closeAllCombos(){ document.querySelectorAll('.combo-options').forEach(o=>o.classList.add('hidden')); }
   document.addEventListener('click', (e)=>{ if(!e.target.closest('.combo')) closeAllCombos(); });
 
+  // ---- JSONP helper (menghindari blokir CORS dari Apps Script) ----
+  function jsonp(url, onSuccess, onError){
+    const cbName = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    const timer = setTimeout(()=>{ cleanup(); onError(new Error('Waktu tunggu habis, server tidak merespons.')); }, 15000);
+    function cleanup(){
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+      clearTimeout(timer);
+    }
+    window[cbName] = function(data){ cleanup(); onSuccess(data); };
+    script.onerror = function(){ cleanup(); onError(new Error('Gagal menghubungi server. Cek URL Apps Script.')); };
+    script.src = url + (url.indexOf('?')>-1 ? '&' : '?') + 'callback=' + cbName;
+    document.head.appendChild(script);
+  }
+
   // ---- Load data from Apps Script API ----
-  fetch(API_URL + '?action=data')
-    .then(r=>r.json())
-    .then(data=>{
+  jsonp(API_URL + '?action=data',
+    (data)=>{
       state.kelas = data.kelas || [];
       state.siswa = data.siswa || [];
       state.alasan = data.alasan || [];
@@ -244,10 +259,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
       alasanSearch.disabled = false;
       kelasSearch.placeholder = 'Ketik untuk cari kelas… (contoh: 7A)';
       statusBox.style.display='none';
-    })
-    .catch(err=>{
+    },
+    (err)=>{
       showStatus('err', 'Gagal memuat data dari server. Pastikan URL Apps Script benar dan sudah di-deploy ulang. (' + err.message + ')');
-    });
+    }
+  );
 
   // ---- Kelas combo ----
   function renderKelasOptions(query){
@@ -340,15 +356,22 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     saveBtn.disabled = true;
     saveBtn.textContent = 'Menyimpan…';
 
-    fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // hindari CORS preflight
-      body: JSON.stringify(payload)
-    })
-      .then(r=>r.json())
-      .then(result=>{
+    const qs = new URLSearchParams({
+      action: 'submit',
+      kelas: payload.kelas,
+      nama: payload.nama,
+      alasan: payload.alasan,
+      simpanAlasanBaru: payload.simpanAlasanBaru ? '1' : '0'
+    });
+
+    jsonp(API_URL + '?' + qs.toString(),
+      (result)=>{
         saveBtn.textContent = 'Simpan Catatan';
-        if(!result.ok){ throw new Error(result.error || 'Gagal menyimpan'); }
+        if(!result.ok){
+          saveBtn.disabled = false;
+          showStatus('err', 'Gagal menyimpan: ' + (result.error || 'tidak diketahui'));
+          return;
+        }
         if(result.milestone){
           showStatus('milestone', '🔔 ' + payload.nama + ' sudah ' + result.count + 'x terlambat bulan ini — otomatis tercatat di sheet Rekap. Silakan buat surat manual & tandai status.');
         } else {
@@ -359,12 +382,13 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
         alasanLainnyaWrap.style.display='none'; alasanLainnyaInput.value='';
         if(payload.simpanAlasanBaru && state.alasan.indexOf(payload.alasan)===-1) state.alasan.push(payload.alasan);
         updateSaveEnabled();
-      })
-      .catch(err=>{
+      },
+      (err)=>{
         saveBtn.disabled = false;
         saveBtn.textContent = 'Simpan Catatan';
         showStatus('err', 'Gagal menyimpan: ' + err.message);
-      });
+      }
+    );
   });
 })();
 </script>
