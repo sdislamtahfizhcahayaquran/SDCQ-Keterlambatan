@@ -97,6 +97,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
 }
 .field input:focus{outline:none;border-color:var(--teal);background:#fff;}
 .field input:disabled{background:#f1f2f3;color:#9aa2ae;}
+.field .nis-hint{font-size:11.5px;color:var(--ink-soft);margin-top:6px;}
 
 .combo{position:relative;}
 .combo-options{
@@ -108,6 +109,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
 .combo-opt:last-child{border-bottom:none;}
 .combo-opt:hover, .combo-opt.hl{background:var(--bg);}
 .combo-opt.other{color:var(--teal);font-weight:700;}
+.combo-opt .opt-nis{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px;}
 .combo-empty{padding:11px 14px;font-size:13px;color:var(--ink-soft);}
 
 .checkbox-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);margin-top:8px;}
@@ -173,7 +175,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
       <div class="field">
         <label>Kelas</label>
         <div class="combo">
-          <input id="kelasSearch" type="text" placeholder="Ketik untuk cari kelas… (contoh: 7A)" autocomplete="off" disabled>
+          <input id="kelasSearch" type="text" placeholder="Ketik untuk cari kelas… (contoh: 1B Banin)" autocomplete="off" disabled>
           <div id="kelasOptions" class="combo-options hidden"></div>
         </div>
       </div>
@@ -184,6 +186,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
           <input id="siswaSearch" type="text" placeholder="Pilih kelas terlebih dahulu…" autocomplete="off" disabled>
           <div id="siswaOptions" class="combo-options hidden"></div>
         </div>
+        <div id="nisHint" class="nis-hint" style="display:none;"></div>
       </div>
 
       <div class="field">
@@ -215,13 +218,14 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
 
   const OTHER_VAL = '__LAINNYA__';
   let state = { kelas:[], siswa:[], alasan:[] };
-  let sel = { kelas:null, siswa:null, alasan:null };
+  let sel = { kelas:null, siswa:null, nis:null, alasan:null };
 
   const statusBox = document.getElementById('statusBox');
   const kelasSearch = document.getElementById('kelasSearch');
   const kelasOptions = document.getElementById('kelasOptions');
   const siswaSearch = document.getElementById('siswaSearch');
   const siswaOptions = document.getElementById('siswaOptions');
+  const nisHint = document.getElementById('nisHint');
   const alasanSearch = document.getElementById('alasanSearch');
   const alasanOptions = document.getElementById('alasanOptions');
   const alasanLainnyaWrap = document.getElementById('alasanLainnyaWrap');
@@ -280,7 +284,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     sel.kelas = opt.dataset.val;
     kelasSearch.value = sel.kelas;
     kelasOptions.classList.add('hidden');
-    sel.siswa=null; siswaSearch.value='';
+    sel.siswa=null; sel.nis=null; siswaSearch.value='';
+    nisHint.style.display='none';
     siswaSearch.disabled=false;
     siswaSearch.placeholder='Ketik nama siswa…';
     updateSaveEnabled();
@@ -292,7 +297,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     const q=(query||'').trim().toLowerCase();
     const items = state.siswa.filter(s=>s.kelas===sel.kelas && (q==='' || s.nama.toLowerCase().includes(q)));
     if(!items.length){ siswaOptions.innerHTML='<div class="combo-empty">Belum ada siswa di kelas ini.</div>'; siswaOptions.classList.remove('hidden'); return; }
-    siswaOptions.innerHTML = items.map(s=>`<div class="combo-opt" data-val="${escapeHtml(s.nama)}">${escapeHtml(s.nama)}</div>`).join('');
+    siswaOptions.innerHTML = items.map(s=>
+      `<div class="combo-opt" data-val="${escapeHtml(s.nama)}" data-nis="${escapeHtml(s.nis)}">${escapeHtml(s.nama)}<span class="opt-nis">NIS: ${escapeHtml(s.nis)}</span></div>`
+    ).join('');
     siswaOptions.classList.remove('hidden');
   }
   siswaSearch.addEventListener('focus', ()=>{ if(!siswaSearch.disabled) renderSiswaOptions(siswaSearch.value); });
@@ -300,8 +307,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
   siswaOptions.addEventListener('click', (e)=>{
     const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
     sel.siswa = opt.dataset.val;
+    sel.nis = opt.dataset.nis || '';
     siswaSearch.value = sel.siswa;
     siswaOptions.classList.add('hidden');
+    if(sel.nis){ nisHint.style.display='block'; nisHint.textContent = 'NIS: ' + sel.nis; }
+    else { nisHint.style.display='none'; }
     updateSaveEnabled();
   });
 
@@ -349,6 +359,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     if(!sel.kelas || !sel.siswa || !alasanText) return;
     const payload = {
       kelas: sel.kelas,
+      nis: sel.nis || '',
       nama: sel.siswa,
       alasan: alasanText,
       simpanAlasanBaru: sel.alasan===OTHER_VAL && document.getElementById('alasanLainnyaSaveChk').checked
@@ -359,6 +370,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     const qs = new URLSearchParams({
       action: 'submit',
       kelas: payload.kelas,
+      nis: payload.nis,
       nama: payload.nama,
       alasan: payload.alasan,
       simpanAlasanBaru: payload.simpanAlasanBaru ? '1' : '0'
@@ -377,8 +389,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
         } else {
           showStatus('ok', 'Tersimpan. ' + payload.nama + ' sudah ' + result.count + 'x terlambat bulan ini.');
         }
-        sel.siswa=null; sel.alasan=null;
+        sel.siswa=null; sel.nis=null; sel.alasan=null;
         siswaSearch.value=''; alasanSearch.value='';
+        nisHint.style.display='none';
         alasanLainnyaWrap.style.display='none'; alasanLainnyaInput.value='';
         if(payload.simpanAlasanBaru && state.alasan.indexOf(payload.alasan)===-1) state.alasan.push(payload.alasan);
         updateSaveEnabled();
