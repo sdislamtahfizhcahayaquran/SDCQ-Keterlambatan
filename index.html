@@ -3,130 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pencatatan Keterlambatan Siswa — SD Islam Tahfizh Cahaya Qur'an</title>
+<title>Form Kesiswaan — SD Islam Tahfizh Cahaya Qur'an</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root{
-  --ink:#132a23;
-  --ink-soft:#5d6d67;
-  --bg:#f2f6f3;
-  --panel:#ffffff;
-  --line:#e2e8e4;
-  --teal-dark:#0c3a30;
-  --teal:#1d6b57;
-  --teal-light:#4c9c82;
-  --gold:#c99a3f;
-  --gold-soft:#f5ead0;
-  --success:#2f8f5d;
-  --success-soft:#dcf0e5;
-  --danger:#b3462c;
+  --ink:#132a23; --ink-soft:#5d6d67; --bg:#f2f6f3; --panel:#ffffff; --line:#e2e8e4;
+  --teal-dark:#0c3a30; --teal:#1d6b57; --teal-light:#4c9c82;
+  --gold:#c99a3f; --gold-soft:#f5ead0;
+  --success:#2f8f5d; --success-soft:#dcf0e5;
+  --danger:#b3462c; --danger-soft:#f6ddd3;
   --radius:16px;
 }
 *{box-sizing:border-box;}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
 .page{max-width:1080px;margin:0 auto;padding:18px 20px 60px;}
 
-/* Topbar */
-.topbar{
-  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
-  background:var(--panel);border-radius:20px;padding:14px 22px;box-shadow:0 6px 24px rgba(12,58,48,.06);
-  margin-bottom:18px;
-}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border-radius:20px;padding:14px 22px;box-shadow:0 6px 24px rgba(12,58,48,.06);margin-bottom:14px;}
 .brand{display:flex;align-items:center;gap:14px;}
-.logo-slot{
-  width:52px;height:52px;border-radius:14px;background:var(--teal-dark);color:#fff;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;overflow:hidden;
-}
-.logo-slot img{width:100%;height:100%;object-fit:cover;display:none;}
+.logo-slot{width:52px;height:52px;border-radius:14px;background:var(--teal-dark);color:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;}
 .brand h1{font-size:17px;margin:0;color:var(--teal-dark);}
 .brand p{font-size:11.5px;margin:3px 0 0;color:var(--ink-soft);letter-spacing:.6px;text-transform:uppercase;font-weight:700;}
-.status-pill{
-  display:flex;align-items:center;gap:8px;background:var(--success-soft);color:var(--success);
-  padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;
-}
+.status-pill{display:flex;align-items:center;gap:8px;background:var(--success-soft);color:var(--success);padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;}
 .status-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 0 4px rgba(47,143,93,.18);}
 
+/* Piket panel */
+.piket-panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 20px;margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+.piket-panel .piket-title{font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--teal);white-space:nowrap;}
+.piket-chip{background:var(--bg);border-radius:10px;padding:7px 12px;font-size:13px;}
+.piket-chip b{color:var(--teal-dark);}
+.piket-empty{font-size:12.5px;color:var(--ink-soft);}
+
 /* Hero */
-.hero{
-  position:relative;overflow:hidden;border-radius:24px;
-  background:linear-gradient(135deg, var(--teal-dark), var(--teal) 55%, var(--teal-light));
-  padding:48px 40px;color:#fff;margin-bottom:20px;
-}
-.hero-pattern{
-  position:absolute;inset:0;opacity:.14;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E");
-  background-size:80px 80px;
-}
-.hero-inner{position:relative;display:flex;gap:36px;flex-wrap:wrap;align-items:flex-start;}
-.hero-left{flex:1 1 320px;min-width:280px;}
-.eyebrow{
-  display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
-  padding:7px 14px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.6px;margin-bottom:18px;
-}
-.hero-left h2{font-size:38px;line-height:1.15;margin:0 0 14px;font-weight:800;}
-.hero-left p{font-size:14.5px;line-height:1.7;color:rgba(255,255,255,.85);max-width:440px;}
+.hero{position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(135deg, var(--teal-dark), var(--teal) 55%, var(--teal-light));padding:40px 40px;color:#fff;margin-bottom:20px;}
+.hero-pattern{position:absolute;inset:0;opacity:.14;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E");background-size:80px 80px;}
+.hero-inner{position:relative;}
+.eyebrow{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:7px 14px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.6px;margin-bottom:16px;}
+.hero h2{font-size:32px;line-height:1.15;margin:0 0 10px;font-weight:800;}
+.hero p{font-size:14px;line-height:1.6;color:rgba(255,255,255,.85);max-width:520px;margin:0;}
 
-.hero-card{
-  flex:1 1 300px;min-width:270px;max-width:360px;background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:22px;backdrop-filter:blur(6px);
-}
-.hero-card h3{font-size:13px;text-transform:uppercase;letter-spacing:.6px;margin:0 0 16px;color:rgba(255,255,255,.9);}
-.step{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;margin-bottom:10px;}
-.step:last-child{margin-bottom:0;}
-.step .num{background:rgba(255,255,255,.16);color:#fff;font-weight:800;font-size:12px;padding:4px 9px;border-radius:8px;flex-shrink:0;}
-.step strong{display:block;font-size:13.5px;margin-bottom:2px;}
-.step p{margin:0;font-size:12px;color:rgba(255,255,255,.75);line-height:1.5;}
+/* Category tabs */
+.tabs{display:flex;gap:10px;margin-bottom:16px;}
+.tab-btn{flex:1;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;transition:.15s;}
+.tab-btn strong{display:block;font-size:14.5px;color:var(--ink);}
+.tab-btn span{font-size:12px;color:var(--ink-soft);}
+.tab-btn.active{border-color:var(--teal);background:var(--teal-dark);}
+.tab-btn.active strong,.tab-btn.active span{color:#fff;}
+.tab-btn.active span{color:rgba(255,255,255,.75);}
+.tab-icon{width:15px;height:15px;vertical-align:-2px;margin-right:5px;display:inline-block;}
+.status-icon{width:15px;height:15px;vertical-align:-2px;margin-right:5px;display:inline-block;}
 
-/* Form section */
-.form-section{margin-top:-6px;}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:0 10px 30px rgba(12,58,48,.05);}
 .card h3{font-size:15px;color:var(--teal-dark);margin:0 0 18px;}
 
 .status-box{border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:16px;display:none;}
 .status-box.ok{display:block;background:var(--success-soft);color:var(--success);}
 .status-box.milestone{display:block;background:var(--gold-soft);color:#8a6417;}
-.status-box.err{display:block;background:#f6ddd3;color:var(--danger);}
+.status-box.err{display:block;background:var(--danger-soft);color:var(--danger);}
 .status-box.loading{display:block;background:#eef1f6;color:var(--ink-soft);}
 
 .field{margin-bottom:16px;position:relative;}
 .field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:7px;}
-.field input[type=text]{
-  width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;font-size:14.5px;color:var(--ink);
-  background:#fbfcfb;
-}
+.field input[type=text]{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;font-size:14.5px;color:var(--ink);background:#fbfcfb;}
 .field input:focus{outline:none;border-color:var(--teal);background:#fff;}
 .field input:disabled{background:#f1f2f3;color:#9aa2ae;}
-.field .nis-hint{font-size:11.5px;color:var(--ink-soft);margin-top:6px;}
+.field .hint{font-size:11.5px;color:var(--ink-soft);margin-top:6px;}
 
 .combo{position:relative;}
-.combo-options{
-  position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--line);
-  border-radius:11px;max-height:220px;overflow-y:auto;z-index:30;box-shadow:0 10px 28px rgba(12,58,48,.12);
-}
+.combo-options{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--line);border-radius:11px;max-height:220px;overflow-y:auto;z-index:30;box-shadow:0 10px 28px rgba(12,58,48,.12);}
 .combo-options.hidden{display:none;}
 .combo-opt{padding:10px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid #f1f2f5;}
 .combo-opt:last-child{border-bottom:none;}
-.combo-opt:hover, .combo-opt.hl{background:var(--bg);}
+.combo-opt:hover,.combo-opt.hl{background:var(--bg);}
 .combo-opt.other{color:var(--teal);font-weight:700;}
 .combo-opt .opt-nis{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px;}
+.combo-opt .opt-meta{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px;}
 .combo-empty{padding:11px 14px;font-size:13px;color:var(--ink-soft);}
 
 .checkbox-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);margin-top:8px;}
 
-.btn-primary{
-  background:var(--teal-dark);color:#fff;padding:13px 20px;border:none;border-radius:11px;font-weight:700;
-  font-size:14.5px;width:100%;cursor:pointer;transition:.15s;
-}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;}
+.chip-btn{border:1.5px solid var(--line);background:#fbfcfb;border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--ink);}
+.chip-btn.sel{background:var(--teal-dark);border-color:var(--teal-dark);color:#fff;}
+.petugas-locked{display:flex;align-items:center;gap:10px;background:var(--success-soft);color:var(--success);border-radius:11px;padding:11px 14px;font-size:13.5px;font-weight:700;}
+.petugas-locked button{margin-left:auto;background:none;border:none;color:var(--success);text-decoration:underline;cursor:pointer;font-size:12px;font-weight:600;}
+
+.btn-primary{background:var(--teal-dark);color:#fff;padding:13px 20px;border:none;border-radius:11px;font-weight:700;font-size:14.5px;width:100%;cursor:pointer;transition:.15s;}
 .btn-primary:hover:not(:disabled){background:var(--teal);}
 .btn-primary:disabled{background:#c7ccd4;cursor:not-allowed;}
 
 .footnote{font-size:11.5px;color:var(--ink-soft);text-align:center;margin-top:22px;}
 
 @media(max-width:640px){
-  .hero{padding:30px 22px;}
-  .hero-left h2{font-size:28px;}
+  .hero{padding:28px 22px;}
+  .hero h2{font-size:26px;}
   .card{padding:20px;}
+  .tabs{flex-direction:column;}
 }
 </style>
 </head>
@@ -135,47 +107,49 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
 
   <header class="topbar">
     <div class="brand">
-      <div class="logo-slot" id="logoSlot">
-        <span id="logoFallback">CQ</span>
-        <!-- Ganti src="" di bawah dengan URL logo kamu -->
-        <img id="logo_sd" src="" alt="Logo SD"
-             onload="this.style.display='block'; document.getElementById('logoFallback').style.display='none';"
-             onerror="this.style.display='none';">
-      </div>
+      <div class="logo-slot">CQ</div>
       <div>
         <h1>SD Islam Tahfizh Cahaya Qur'an</h1>
-        <p>Sistem Pencatatan Keterlambatan</p>
+        <p>Form Kesiswaan</p>
       </div>
     </div>
     <div class="status-pill"><span class="dot"></span> Piket Aktif</div>
   </header>
 
+  <div id="piketPanel" class="piket-panel">
+    <span class="piket-title">Piket Hari Ini</span>
+    <span id="piketContent" class="piket-empty">Memuat jadwal…</span>
+  </div>
+
   <section class="hero">
     <div class="hero-pattern"></div>
     <div class="hero-inner">
-      <div class="hero-left">
-        <span class="eyebrow">MENUJU SEKOLAH TEPAT WAKTU</span>
-        <h2>Catat Keterlambatan<br>Siswa</h2>
-        <p>Pilih kelas dan nama siswa, tulis alasan keterlambatannya, lalu simpan — data langsung tercatat dan dihitung otomatis setiap bulan.</p>
-      </div>
-      <div class="hero-card">
-        <h3>Cara Kerja</h3>
-        <div class="step"><span class="num">01</span><div><strong>Pilih Kelas & Nama</strong><p>Cukup ketik, tidak perlu scroll panjang.</p></div></div>
-        <div class="step"><span class="num">02</span><div><strong>Pilih Alasan</strong><p>Dari daftar, atau tulis alasan lain.</p></div></div>
-        <div class="step"><span class="num">03</span><div><strong>Simpan Otomatis</strong><p>Tanggal & jam tercatat sendiri, terhitung tiap bulan.</p></div></div>
-      </div>
+      <span class="eyebrow">MENUJU SEKOLAH TERTIB & TEPAT WAKTU</span>
+      <h2>Form Pencatatan Kesiswaan</h2>
+      <p>Pilih jenis pencatatan, isi kelas dan nama siswa, lalu simpan — data langsung tercatat dan dihitung otomatis setiap bulan.</p>
     </div>
   </section>
 
+  <div class="tabs">
+    <div id="tabTelat" class="tab-btn active" data-jenis="keterlambatan">
+      <strong><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Keterlambatan</strong>
+      <span>Catat siswa yang datang terlambat</span>
+    </div>
+    <div id="tabDisiplin" class="tab-btn" data-jenis="kedisiplinan">
+      <strong><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>Kedisiplinan</strong>
+      <span>Catat pelanggaran tata tertib siswa</span>
+    </div>
+  </div>
+
   <section class="form-section">
     <div class="card">
-      <h3>Form Pencatatan</h3>
-      <div id="statusBox" class="status-box loading">Memuat data kelas & siswa…</div>
+      <h3 id="cardTitle">Form Keterlambatan</h3>
+      <div id="statusBox" class="status-box loading">Memuat data…</div>
 
       <div class="field">
         <label>Kelas</label>
         <div class="combo">
-          <input id="kelasSearch" type="text" placeholder="Ketik untuk cari kelas… (contoh: 1B Banin)" autocomplete="off" disabled>
+          <input id="kelasSearch" type="text" placeholder="Ketik untuk cari kelas…" autocomplete="off" disabled>
           <div id="kelasOptions" class="combo-options hidden"></div>
         </div>
       </div>
@@ -186,10 +160,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
           <input id="siswaSearch" type="text" placeholder="Pilih kelas terlebih dahulu…" autocomplete="off" disabled>
           <div id="siswaOptions" class="combo-options hidden"></div>
         </div>
-        <div id="nisHint" class="nis-hint" style="display:none;"></div>
+        <div id="nisHint" class="hint" style="display:none;"></div>
       </div>
 
-      <div class="field">
+      <div id="fieldAlasan" class="field">
         <label>Alasan Terlambat</label>
         <div class="combo">
           <input id="alasanSearch" type="text" placeholder="Ketik minimal 1 huruf…" autocomplete="off" disabled>
@@ -197,11 +171,32 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
         </div>
         <div id="alasanLainnyaWrap" style="display:none;margin-top:8px;">
           <input id="alasanLainnyaInput" type="text" placeholder="Tulis alasan lain di sini…">
-          <label class="checkbox-row">
-            <input type="checkbox" id="alasanLainnyaSaveChk" checked>
-            Tambahkan ke daftar pilihan alasan
-          </label>
+          <label class="checkbox-row"><input type="checkbox" id="alasanLainnyaSaveChk" checked> Tambahkan ke daftar pilihan alasan</label>
         </div>
+      </div>
+
+      <div id="fieldPelanggaran" class="field" style="display:none;">
+        <label>Jenis Pelanggaran</label>
+        <div class="combo">
+          <input id="pelanggaranSearch" type="text" placeholder="Ketik untuk cari jenis pelanggaran…" autocomplete="off" disabled>
+          <div id="pelanggaranOptions" class="combo-options hidden"></div>
+        </div>
+        <div id="pelanggaranHint" class="hint" style="display:none;"></div>
+      </div>
+
+      <div class="field">
+        <label>Petugas Input</label>
+        <div id="petugasLocked" class="petugas-locked" style="display:none;">
+          <span>Petugas: <span id="petugasLockedName"></span></span>
+          <button id="petugasGantiBtn" type="button">Ganti</button>
+        </div>
+        <div id="petugasPicker">
+          <div id="petugasChips" class="chip-row"></div>
+          <div id="petugasLainnyaWrap" style="display:none;margin-top:8px;">
+            <input id="petugasLainnyaInput" type="text" placeholder="Tulis nama petugas…">
+          </div>
+        </div>
+        <div class="hint">Dipilih sekali, akan diingat browser ini untuk hari yang sama. Bukan verifikasi identitas — hanya kenyamanan.</div>
       </div>
 
       <button id="saveBtn" class="btn-primary" disabled>Simpan Catatan</button>
@@ -217,10 +212,17 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
   const API_URL = 'https://script.google.com/macros/s/AKfycbzBYQZuPCO08hj6x4HInojXRkVl2EOvViHXk_TkyceC5_sfzaNiMjPzhUx45jRCcJiKeg/exec';
 
   const OTHER_VAL = '__LAINNYA__';
-  let state = { kelas:[], siswa:[], alasan:[] };
-  let sel = { kelas:null, siswa:null, nis:null, alasan:null };
+  let state = { kelas:[], siswa:[], alasan:[], pelanggaran:[], piketHariIni:null };
+  let sel = { kelas:null, siswa:null, nis:null, alasan:null, pelanggaran:null };
+  let jenisAktif = 'keterlambatan';
 
   const statusBox = document.getElementById('statusBox');
+  const cardTitle = document.getElementById('cardTitle');
+  const tabTelat = document.getElementById('tabTelat');
+  const tabDisiplin = document.getElementById('tabDisiplin');
+  const fieldAlasan = document.getElementById('fieldAlasan');
+  const fieldPelanggaran = document.getElementById('fieldPelanggaran');
+
   const kelasSearch = document.getElementById('kelasSearch');
   const kelasOptions = document.getElementById('kelasOptions');
   const siswaSearch = document.getElementById('siswaSearch');
@@ -230,28 +232,127 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
   const alasanOptions = document.getElementById('alasanOptions');
   const alasanLainnyaWrap = document.getElementById('alasanLainnyaWrap');
   const alasanLainnyaInput = document.getElementById('alasanLainnyaInput');
+  const pelanggaranSearch = document.getElementById('pelanggaranSearch');
+  const pelanggaranOptions = document.getElementById('pelanggaranOptions');
+  const pelanggaranHint = document.getElementById('pelanggaranHint');
+  const petugasChips = document.getElementById('petugasChips');
+  const petugasLainnyaWrap = document.getElementById('petugasLainnyaWrap');
+  const petugasLainnyaInput = document.getElementById('petugasLainnyaInput');
+  const petugasLocked = document.getElementById('petugasLocked');
+  const petugasLockedName = document.getElementById('petugasLockedName');
+  const petugasGantiBtn = document.getElementById('petugasGantiBtn');
+  const petugasPicker = document.getElementById('petugasPicker');
+  const piketContent = document.getElementById('piketContent');
   const saveBtn = document.getElementById('saveBtn');
 
+  let petugasTerpilih = null;
+
   function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-  function showStatus(cls, msg){ statusBox.className='status-box '+cls; statusBox.textContent=msg; }
+  const BELL_SVG = '<svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>';
+  function showStatus(cls, msg, withBell){
+    statusBox.className='status-box '+cls;
+    statusBox.innerHTML = (withBell ? BELL_SVG : '') + escapeHtml(msg);
+  }
   function closeAllCombos(){ document.querySelectorAll('.combo-options').forEach(o=>o.classList.add('hidden')); }
   document.addEventListener('click', (e)=>{ if(!e.target.closest('.combo')) closeAllCombos(); });
 
-  // ---- JSONP helper (menghindari blokir CORS dari Apps Script) ----
+  // ---- JSONP helper ----
   function jsonp(url, onSuccess, onError){
     const cbName = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
     const script = document.createElement('script');
     const timer = setTimeout(()=>{ cleanup(); onError(new Error('Waktu tunggu habis, server tidak merespons.')); }, 15000);
-    function cleanup(){
-      delete window[cbName];
-      if(script.parentNode) script.parentNode.removeChild(script);
-      clearTimeout(timer);
-    }
+    function cleanup(){ delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); clearTimeout(timer); }
     window[cbName] = function(data){ cleanup(); onSuccess(data); };
     script.onerror = function(){ cleanup(); onError(new Error('Gagal menghubungi server. Cek URL Apps Script.')); };
     script.src = url + (url.indexOf('?')>-1 ? '&' : '?') + 'callback=' + cbName;
     document.head.appendChild(script);
   }
+
+  // ---- Petugas: localStorage, hanya berlaku untuk hari yang sama ----
+  function todayKey(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+  function loadPetugasTersimpan(){
+    try{
+      const raw = localStorage.getItem('cq_petugas_input');
+      if(!raw) return null;
+      const obj = JSON.parse(raw);
+      if(obj.tanggal !== todayKey()) return null;
+      return obj.nama || null;
+    }catch(e){ return null; }
+  }
+  function simpanPetugas(nama){
+    try{ localStorage.setItem('cq_petugas_input', JSON.stringify({ nama: nama, tanggal: todayKey() })); }catch(e){}
+  }
+  function hapusPetugasTersimpan(){
+    try{ localStorage.removeItem('cq_petugas_input'); }catch(e){}
+  }
+  function renderPetugasLockedUI(nama){
+    petugasTerpilih = nama;
+    petugasLockedName.textContent = nama;
+    petugasLocked.style.display='flex';
+    petugasPicker.style.display='none';
+    updateSaveEnabled();
+  }
+  function renderPetugasPickerUI(){
+    petugasTerpilih = null;
+    petugasLocked.style.display='none';
+    petugasPicker.style.display='block';
+    updateSaveEnabled();
+  }
+  petugasGantiBtn.addEventListener('click', ()=>{ hapusPetugasTersimpan(); renderPetugasPickerUI(); });
+
+  function renderPetugasChips(){
+    const p = state.piketHariIni;
+    const names = [];
+    if(p){ [p.gerbangAtas, p.gerbangBawah, p.uks].forEach(n=>{ if(n && names.indexOf(n)===-1) names.push(n); }); }
+    let html = names.map(n=>`<div class="chip-btn" data-val="${escapeHtml(n)}">${escapeHtml(n)}</div>`).join('');
+    html += `<div class="chip-btn" data-val="${OTHER_VAL}">+ Lainnya</div>`;
+    petugasChips.innerHTML = html;
+  }
+  petugasChips.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.chip-btn'); if(!chip) return;
+    document.querySelectorAll('#petugasChips .chip-btn').forEach(c=>c.classList.remove('sel'));
+    chip.classList.add('sel');
+    if(chip.dataset.val === OTHER_VAL){
+      petugasLainnyaWrap.style.display='block';
+      petugasLainnyaInput.focus();
+      petugasTerpilih = null;
+    } else {
+      petugasLainnyaWrap.style.display='none';
+      petugasTerpilih = chip.dataset.val;
+    }
+    updateSaveEnabled();
+  });
+  petugasLainnyaInput.addEventListener('input', ()=>{
+    petugasTerpilih = petugasLainnyaInput.value.trim() || null;
+    updateSaveEnabled();
+  });
+
+  function renderPiketPanel(){
+    const p = state.piketHariIni;
+    if(!p){ piketContent.className='piket-empty'; piketContent.textContent = 'Belum ada jadwal piket untuk hari ini.'; return; }
+    piketContent.className='';
+    piketContent.innerHTML =
+      `<span class="piket-chip"><b>${escapeHtml(p.hari)}, ${escapeHtml(p.tanggalLabel)}</b></span> ` +
+      `<span class="piket-chip">Gerbang Atas: <b>${escapeHtml(p.gerbangAtas||'-')}</b></span>` +
+      `<span class="piket-chip">Gerbang Bawah: <b>${escapeHtml(p.gerbangBawah||'-')}</b></span>` +
+      `<span class="piket-chip">UKS: <b>${escapeHtml(p.uks||'-')}</b></span>`;
+  }
+
+  // ---- Tabs ----
+  function setJenis(j){
+    jenisAktif = j;
+    tabTelat.classList.toggle('active', j==='keterlambatan');
+    tabDisiplin.classList.toggle('active', j==='kedisiplinan');
+    fieldAlasan.style.display = j==='keterlambatan' ? 'block' : 'none';
+    fieldPelanggaran.style.display = j==='kedisiplinan' ? 'block' : 'none';
+    cardTitle.textContent = j==='keterlambatan' ? 'Form Keterlambatan' : 'Form Kedisiplinan';
+    sel.alasan = null; sel.pelanggaran = null;
+    alasanSearch.value=''; pelanggaranSearch.value='';
+    alasanLainnyaWrap.style.display='none'; pelanggaranHint.style.display='none';
+    updateSaveEnabled();
+  }
+  tabTelat.addEventListener('click', ()=>setJenis('keterlambatan'));
+  tabDisiplin.addEventListener('click', ()=>setJenis('kedisiplinan'));
 
   // ---- Load data from Apps Script API ----
   jsonp(API_URL + '?action=data',
@@ -259,14 +360,19 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
       state.kelas = data.kelas || [];
       state.siswa = data.siswa || [];
       state.alasan = data.alasan || [];
+      state.pelanggaran = data.pelanggaran || [];
+      state.piketHariIni = data.piketHariIni || null;
       kelasSearch.disabled = false;
       alasanSearch.disabled = false;
+      pelanggaranSearch.disabled = false;
       kelasSearch.placeholder = 'Ketik untuk cari kelas… (contoh: 7A)';
       statusBox.style.display='none';
+      renderPiketPanel();
+      renderPetugasChips();
+      const tersimpan = loadPetugasTersimpan();
+      if(tersimpan) renderPetugasLockedUI(tersimpan); else renderPetugasPickerUI();
     },
-    (err)=>{
-      showStatus('err', 'Gagal memuat data dari server. Pastikan URL Apps Script benar dan sudah di-deploy ulang. (' + err.message + ')');
-    }
+    (err)=>{ showStatus('err', 'Gagal memuat data dari server. Pastikan URL Apps Script benar dan sudah di-deploy ulang. (' + err.message + ')'); }
   );
 
   // ---- Kelas combo ----
@@ -297,9 +403,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     const q=(query||'').trim().toLowerCase();
     const items = state.siswa.filter(s=>s.kelas===sel.kelas && (q==='' || s.nama.toLowerCase().includes(q)));
     if(!items.length){ siswaOptions.innerHTML='<div class="combo-empty">Belum ada siswa di kelas ini.</div>'; siswaOptions.classList.remove('hidden'); return; }
-    siswaOptions.innerHTML = items.map(s=>
-      `<div class="combo-opt" data-val="${escapeHtml(s.nama)}" data-nis="${escapeHtml(s.nis)}">${escapeHtml(s.nama)}<span class="opt-nis">NIS: ${escapeHtml(s.nis)}</span></div>`
-    ).join('');
+    siswaOptions.innerHTML = items.map(s=>`<div class="combo-opt" data-val="${escapeHtml(s.nama)}" data-nis="${escapeHtml(s.nis)}">${escapeHtml(s.nama)}<span class="opt-nis">NIS: ${escapeHtml(s.nis)}</span></div>`).join('');
     siswaOptions.classList.remove('hidden');
   }
   siswaSearch.addEventListener('focus', ()=>{ if(!siswaSearch.disabled) renderSiswaOptions(siswaSearch.value); });
@@ -310,12 +414,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     sel.nis = opt.dataset.nis || '';
     siswaSearch.value = sel.siswa;
     siswaOptions.classList.add('hidden');
-    if(sel.nis){ nisHint.style.display='block'; nisHint.textContent = 'NIS: ' + sel.nis; }
-    else { nisHint.style.display='none'; }
+    if(sel.nis){ nisHint.style.display='block'; nisHint.textContent = 'NIS: ' + sel.nis; } else { nisHint.style.display='none'; }
     updateSaveEnabled();
   });
 
-  // ---- Alasan combo ----
+  // ---- Alasan combo (keterlambatan) ----
   function renderAlasanOptions(query){
     const q=(query||'').trim().toLowerCase();
     const items = q==='' ? state.alasan.slice() : state.alasan.filter(a=>a.toLowerCase().includes(q));
@@ -330,13 +433,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
   alasanOptions.addEventListener('click', (e)=>{
     const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
     if(opt.dataset.val === OTHER_VAL){
-      sel.alasan = OTHER_VAL;
-      alasanSearch.value = 'Lainnya';
-      alasanLainnyaWrap.style.display='block';
-      alasanLainnyaInput.focus();
+      sel.alasan = OTHER_VAL; alasanSearch.value = 'Lainnya';
+      alasanLainnyaWrap.style.display='block'; alasanLainnyaInput.focus();
     } else {
-      sel.alasan = opt.dataset.val;
-      alasanSearch.value = opt.dataset.val;
+      sel.alasan = opt.dataset.val; alasanSearch.value = opt.dataset.val;
       alasanLainnyaWrap.style.display='none';
     }
     alasanOptions.classList.add('hidden');
@@ -344,61 +444,106 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
   });
   alasanLainnyaInput.addEventListener('input', updateSaveEnabled);
 
-  // ---- Save ----
-  function currentAlasanText(){
-    if(sel.alasan === OTHER_VAL) return alasanLainnyaInput.value.trim();
-    return sel.alasan;
+  // ---- Pelanggaran combo (kedisiplinan) ----
+  function renderPelanggaranOptions(query){
+    const q=(query||'').trim().toLowerCase();
+    const items = state.pelanggaran.filter(p=>p.nama.toLowerCase().includes(q));
+    if(!items.length){ pelanggaranOptions.innerHTML='<div class="combo-empty">Tidak ada yang cocok. Cek sheet "Jenis Pelanggaran".</div>'; pelanggaranOptions.classList.remove('hidden'); return; }
+    pelanggaranOptions.innerHTML = items.map(p=>`<div class="combo-opt" data-val="${escapeHtml(p.nama)}" data-tingkat="${escapeHtml(p.tingkat)}" data-poin="${p.poin}">${escapeHtml(p.nama)}<span class="opt-meta">${escapeHtml(p.tingkat)} · ${p.poin} poin</span></div>`).join('');
+    pelanggaranOptions.classList.remove('hidden');
   }
+  pelanggaranSearch.addEventListener('focus', ()=>{ if(!pelanggaranSearch.disabled) renderPelanggaranOptions(pelanggaranSearch.value); });
+  pelanggaranSearch.addEventListener('input', ()=>renderPelanggaranOptions(pelanggaranSearch.value));
+  pelanggaranOptions.addEventListener('click', (e)=>{
+    const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
+    sel.pelanggaran = { nama: opt.dataset.val, tingkat: opt.dataset.tingkat, poin: Number(opt.dataset.poin) };
+    pelanggaranSearch.value = opt.dataset.val;
+    pelanggaranHint.style.display='block';
+    pelanggaranHint.textContent = 'Tingkat: ' + opt.dataset.tingkat + ' · ' + opt.dataset.poin + ' poin';
+    pelanggaranOptions.classList.add('hidden');
+    updateSaveEnabled();
+  });
+
+  // ---- Save ----
+  function currentAlasanText(){ return sel.alasan === OTHER_VAL ? alasanLainnyaInput.value.trim() : sel.alasan; }
+
   function updateSaveEnabled(){
-    const ok = sel.kelas && sel.siswa && sel.alasan && (sel.alasan!==OTHER_VAL || alasanLainnyaInput.value.trim().length>0);
+    const petugasOk = !!petugasTerpilih;
+    let ok = sel.kelas && sel.siswa && petugasOk;
+    if(jenisAktif === 'keterlambatan'){
+      ok = ok && sel.alasan && (sel.alasan!==OTHER_VAL || alasanLainnyaInput.value.trim().length>0);
+    } else {
+      ok = ok && !!sel.pelanggaran;
+    }
     saveBtn.disabled = !ok;
   }
 
+  function resetFormSetelahSimpan(){
+    // Reset SEMUANYA termasuk Kelas -- sebelumnya Kelas tidak ikut ter-reset.
+    sel.kelas=null; sel.siswa=null; sel.nis=null; sel.alasan=null; sel.pelanggaran=null;
+    kelasSearch.value=''; siswaSearch.value=''; alasanSearch.value=''; pelanggaranSearch.value='';
+    siswaSearch.disabled = true;
+    siswaSearch.placeholder = 'Pilih kelas terlebih dahulu…';
+    nisHint.style.display='none';
+    alasanLainnyaWrap.style.display='none'; alasanLainnyaInput.value='';
+    pelanggaranHint.style.display='none';
+    updateSaveEnabled();
+  }
+
   saveBtn.addEventListener('click', ()=>{
-    const alasanText = currentAlasanText();
-    if(!sel.kelas || !sel.siswa || !alasanText) return;
-    const payload = {
-      kelas: sel.kelas,
-      nis: sel.nis || '',
-      nama: sel.siswa,
-      alasan: alasanText,
-      simpanAlasanBaru: sel.alasan===OTHER_VAL && document.getElementById('alasanLainnyaSaveChk').checked
-    };
+    if(!sel.kelas || !sel.siswa || !petugasTerpilih) return;
     saveBtn.disabled = true;
     saveBtn.textContent = 'Menyimpan…';
 
-    const qs = new URLSearchParams({
-      action: 'submit',
-      kelas: payload.kelas,
-      nis: payload.nis,
-      nama: payload.nama,
-      alasan: payload.alasan,
-      simpanAlasanBaru: payload.simpanAlasanBaru ? '1' : '0'
-    });
+    let qs;
+    if(jenisAktif === 'keterlambatan'){
+      const alasanText = currentAlasanText();
+      if(!alasanText){ saveBtn.disabled=false; saveBtn.textContent='Simpan Catatan'; return; }
+      qs = new URLSearchParams({
+        action:'submit', jenis:'keterlambatan',
+        kelas: sel.kelas, nis: sel.nis||'', nama: sel.siswa, alasan: alasanText,
+        simpanAlasanBaru: (sel.alasan===OTHER_VAL && document.getElementById('alasanLainnyaSaveChk').checked) ? '1' : '0',
+        petugas: petugasTerpilih,
+      });
+    } else {
+      if(!sel.pelanggaran){ saveBtn.disabled=false; saveBtn.textContent='Simpan Catatan'; return; }
+      qs = new URLSearchParams({
+        action:'submit', jenis:'kedisiplinan',
+        kelas: sel.kelas, nis: sel.nis||'', nama: sel.siswa,
+        pelanggaran: sel.pelanggaran.nama, tingkat: sel.pelanggaran.tingkat, poin: sel.pelanggaran.poin,
+        petugas: petugasTerpilih,
+      });
+    }
 
     jsonp(API_URL + '?' + qs.toString(),
       (result)=>{
         saveBtn.textContent = 'Simpan Catatan';
-        if(!result.ok){
-          saveBtn.disabled = false;
-          showStatus('err', 'Gagal menyimpan: ' + (result.error || 'tidak diketahui'));
-          return;
-        }
-        if(result.milestone){
-          showStatus('milestone', '🔔 ' + payload.nama + ' sudah ' + result.count + 'x terlambat bulan ini — otomatis tercatat di sheet Rekap. Silakan buat surat manual & tandai status.');
+        if(!result.ok){ saveBtn.disabled=false; showStatus('err', 'Gagal menyimpan: ' + (result.error || 'tidak diketahui')); return; }
+
+        simpanPetugas(petugasTerpilih);
+        renderPetugasLockedUI(petugasTerpilih);
+
+        const namaSiswa = sel.siswa;
+        if(jenisAktif === 'keterlambatan'){
+          showStatus(result.milestone ? 'milestone' : 'ok',
+            namaSiswa + ' sudah ' + result.count + 'x terlambat bulan ini' +
+            (result.milestone ? ' — otomatis tercatat di sheet Rekap.' : '.'),
+            result.milestone);
         } else {
-          showStatus('ok', 'Tersimpan. ' + payload.nama + ' sudah ' + result.count + 'x terlambat bulan ini.');
+          showStatus(result.milestone ? 'milestone' : 'ok',
+            namaSiswa + ' sudah ' + result.totalPoin + ' poin bulan ini (ambang SP: ' + result.ambang + ')' +
+            (result.milestone ? ' — otomatis tercatat di sheet Rekap.' : '.'),
+            result.milestone);
         }
-        sel.siswa=null; sel.nis=null; sel.alasan=null;
-        siswaSearch.value=''; alasanSearch.value='';
-        nisHint.style.display='none';
-        alasanLainnyaWrap.style.display='none'; alasanLainnyaInput.value='';
-        if(payload.simpanAlasanBaru && state.alasan.indexOf(payload.alasan)===-1) state.alasan.push(payload.alasan);
-        updateSaveEnabled();
+
+        if(jenisAktif==='keterlambatan' && sel.alasan===OTHER_VAL && document.getElementById('alasanLainnyaSaveChk').checked && state.alasan.indexOf(alasanLainnyaInput.value.trim())===-1){
+          state.alasan.push(alasanLainnyaInput.value.trim());
+        }
+
+        resetFormSetelahSimpan();
       },
       (err)=>{
-        saveBtn.disabled = false;
-        saveBtn.textContent = 'Simpan Catatan';
+        saveBtn.disabled=false; saveBtn.textContent='Simpan Catatan';
         showStatus('err', 'Gagal menyimpan: ' + err.message);
       }
     );
