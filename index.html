@@ -82,6 +82,15 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
 
 .checkbox-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);margin-top:8px;}
 
+/* Checklist pelanggaran (kedisiplinan -- bisa pilih banyak) */
+.checklist-box{max-height:240px;overflow-y:auto;border:1.5px solid var(--line);border-radius:11px;margin-top:8px;background:#fbfcfb;}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid #f1f2f5;font-size:13.5px;cursor:pointer;}
+.checklist-item:last-child{border-bottom:none;}
+.checklist-item:hover{background:var(--bg);}
+.checklist-item input[type=checkbox]{width:17px;height:17px;flex-shrink:0;accent-color:var(--teal-dark);}
+.checklist-item .opt-meta{margin-left:auto;font-size:11px;color:var(--ink-soft);white-space:nowrap;}
+.pelanggaran-total{font-size:12.5px;font-weight:700;color:var(--teal-dark);margin-top:8px;}
+
 .chip-row{display:flex;gap:8px;flex-wrap:wrap;}
 .chip-btn{border:1.5px solid var(--line);background:#fbfcfb;border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--ink);}
 .chip-btn.sel{background:var(--teal-dark);border-color:var(--teal-dark);color:#fff;}
@@ -126,7 +135,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     <div class="hero-inner">
       <span class="eyebrow">MENUJU SEKOLAH TERTIB & TEPAT WAKTU</span>
       <h2>Form Pencatatan Kesiswaan</h2>
-      <p>Pilih jenis pencatatan, isi kelas dan nama siswa, lalu simpan — data langsung tercatat dan dihitung otomatis setiap bulan.</p>
+      <p>Pilih jenis pencatatan, isi kelas dan nama siswa, lalu simpan — data langsung tercatat dan dihitung otomatis, akumulasi per semester berjalan.</p>
     </div>
   </section>
 
@@ -137,7 +146,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     </div>
     <div id="tabDisiplin" class="tab-btn" data-jenis="kedisiplinan">
       <strong><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>Kedisiplinan</strong>
-      <span>Catat pelanggaran tata tertib siswa</span>
+      <span>Catat pelanggaran tata tertib siswa (bisa lebih dari satu)</span>
     </div>
   </div>
 
@@ -176,12 +185,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
       </div>
 
       <div id="fieldPelanggaran" class="field" style="display:none;">
-        <label>Jenis Pelanggaran</label>
-        <div class="combo">
-          <input id="pelanggaranSearch" type="text" placeholder="Ketik untuk cari jenis pelanggaran…" autocomplete="off" disabled>
-          <div id="pelanggaranOptions" class="combo-options hidden"></div>
-        </div>
-        <div id="pelanggaranHint" class="hint" style="display:none;"></div>
+        <label>Jenis Pelanggaran (boleh centang lebih dari satu)</label>
+        <input id="pelanggaranSearch" type="text" placeholder="Ketik untuk cari jenis pelanggaran…" autocomplete="off" disabled>
+        <div id="pelanggaranChecklist" class="checklist-box"></div>
+        <div id="pelanggaranTotal" class="pelanggaran-total"></div>
       </div>
 
       <div class="field">
@@ -201,7 +208,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
 
       <button id="saveBtn" class="btn-primary" disabled>Simpan Catatan</button>
     </div>
-    <p class="footnote">Data tersimpan langsung ke Google Sheet sekolah — tanggal & jam otomatis dari server.</p>
+    <p class="footnote">Data tersimpan langsung ke Google Sheet sekolah — tanggal & jam otomatis dari server. Total dihitung akumulasi per semester berjalan.</p>
   </section>
 
 </div>
@@ -213,7 +220,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
 
   const OTHER_VAL = '__LAINNYA__';
   let state = { kelas:[], siswa:[], alasan:[], pelanggaran:[], piketHariIni:null };
-  let sel = { kelas:null, siswa:null, nis:null, alasan:null, pelanggaran:null };
+  let sel = { kelas:null, siswa:null, nis:null, alasan:null };
+  let selPelanggaran = {}; // { namaPelanggaran: {nama,tingkat,poin} }
   let jenisAktif = 'keterlambatan';
 
   const statusBox = document.getElementById('statusBox');
@@ -233,8 +241,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
   const alasanLainnyaWrap = document.getElementById('alasanLainnyaWrap');
   const alasanLainnyaInput = document.getElementById('alasanLainnyaInput');
   const pelanggaranSearch = document.getElementById('pelanggaranSearch');
-  const pelanggaranOptions = document.getElementById('pelanggaranOptions');
-  const pelanggaranHint = document.getElementById('pelanggaranHint');
+  const pelanggaranChecklist = document.getElementById('pelanggaranChecklist');
+  const pelanggaranTotalEl = document.getElementById('pelanggaranTotal');
   const petugasChips = document.getElementById('petugasChips');
   const petugasLainnyaWrap = document.getElementById('petugasLainnyaWrap');
   const petugasLainnyaInput = document.getElementById('petugasLainnyaInput');
@@ -346,9 +354,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     fieldAlasan.style.display = j==='keterlambatan' ? 'block' : 'none';
     fieldPelanggaran.style.display = j==='kedisiplinan' ? 'block' : 'none';
     cardTitle.textContent = j==='keterlambatan' ? 'Form Keterlambatan' : 'Form Kedisiplinan';
-    sel.alasan = null; sel.pelanggaran = null;
-    alasanSearch.value=''; pelanggaranSearch.value='';
-    alasanLainnyaWrap.style.display='none'; pelanggaranHint.style.display='none';
+    sel.alasan = null;
+    alasanSearch.value=''; alasanLainnyaWrap.style.display='none';
+    selPelanggaran = {}; pelanggaranSearch.value='';
+    renderPelanggaranChecklist('');
     updateSaveEnabled();
   }
   tabTelat.addEventListener('click', ()=>setJenis('keterlambatan'));
@@ -369,6 +378,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
       statusBox.style.display='none';
       renderPiketPanel();
       renderPetugasChips();
+      renderPelanggaranChecklist('');
       const tersimpan = loadPetugasTersimpan();
       if(tersimpan) renderPetugasLockedUI(tersimpan); else renderPetugasPickerUI();
     },
@@ -444,25 +454,37 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
   });
   alasanLainnyaInput.addEventListener('input', updateSaveEnabled);
 
-  // ---- Pelanggaran combo (kedisiplinan) ----
-  function renderPelanggaranOptions(query){
+  // ---- Pelanggaran checklist (kedisiplinan -- bisa pilih banyak) ----
+  function renderPelanggaranChecklist(query){
     const q=(query||'').trim().toLowerCase();
     const items = state.pelanggaran.filter(p=>p.nama.toLowerCase().includes(q));
-    if(!items.length){ pelanggaranOptions.innerHTML='<div class="combo-empty">Tidak ada yang cocok. Cek sheet "Jenis Pelanggaran".</div>'; pelanggaranOptions.classList.remove('hidden'); return; }
-    pelanggaranOptions.innerHTML = items.map(p=>`<div class="combo-opt" data-val="${escapeHtml(p.nama)}" data-tingkat="${escapeHtml(p.tingkat)}" data-poin="${p.poin}">${escapeHtml(p.nama)}<span class="opt-meta">${escapeHtml(p.tingkat)} · ${p.poin} poin</span></div>`).join('');
-    pelanggaranOptions.classList.remove('hidden');
+    if(!items.length){ pelanggaranChecklist.innerHTML='<div class="combo-empty">Tidak ada yang cocok. Cek sheet "Jenis Pelanggaran".</div>'; updatePelanggaranTotal(); return; }
+    pelanggaranChecklist.innerHTML = items.map(p=>{
+      const checked = selPelanggaran[p.nama] ? 'checked' : '';
+      return `<label class="checklist-item">` +
+        `<input type="checkbox" data-nama="${escapeHtml(p.nama)}" data-tingkat="${escapeHtml(p.tingkat)}" data-poin="${p.poin}" ${checked}>` +
+        `<span>${escapeHtml(p.nama)}</span>` +
+        `<span class="opt-meta">${escapeHtml(p.tingkat)} · ${p.poin} poin</span>` +
+        `</label>`;
+    }).join('');
+    updatePelanggaranTotal();
   }
-  pelanggaranSearch.addEventListener('focus', ()=>{ if(!pelanggaranSearch.disabled) renderPelanggaranOptions(pelanggaranSearch.value); });
-  pelanggaranSearch.addEventListener('input', ()=>renderPelanggaranOptions(pelanggaranSearch.value));
-  pelanggaranOptions.addEventListener('click', (e)=>{
-    const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
-    sel.pelanggaran = { nama: opt.dataset.val, tingkat: opt.dataset.tingkat, poin: Number(opt.dataset.poin) };
-    pelanggaranSearch.value = opt.dataset.val;
-    pelanggaranHint.style.display='block';
-    pelanggaranHint.textContent = 'Tingkat: ' + opt.dataset.tingkat + ' · ' + opt.dataset.poin + ' poin';
-    pelanggaranOptions.classList.add('hidden');
+  pelanggaranSearch.addEventListener('focus', ()=>{ if(!pelanggaranSearch.disabled) renderPelanggaranChecklist(pelanggaranSearch.value); });
+  pelanggaranSearch.addEventListener('input', ()=>renderPelanggaranChecklist(pelanggaranSearch.value));
+  pelanggaranChecklist.addEventListener('change', (e)=>{
+    const cb = e.target.closest('input[type=checkbox]'); if(!cb) return;
+    const nama = cb.dataset.nama;
+    if(cb.checked) selPelanggaran[nama] = { nama: nama, tingkat: cb.dataset.tingkat, poin: Number(cb.dataset.poin) };
+    else delete selPelanggaran[nama];
+    updatePelanggaranTotal();
     updateSaveEnabled();
   });
+  function updatePelanggaranTotal(){
+    const vals = Object.values(selPelanggaran);
+    if(!vals.length){ pelanggaranTotalEl.textContent=''; return; }
+    const total = vals.reduce((a,b)=>a+b.poin,0);
+    pelanggaranTotalEl.textContent = vals.length + ' pelanggaran dipilih · total ' + total + ' poin untuk input ini';
+  }
 
   // ---- Save ----
   function currentAlasanText(){ return sel.alasan === OTHER_VAL ? alasanLainnyaInput.value.trim() : sel.alasan; }
@@ -473,20 +495,20 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
     if(jenisAktif === 'keterlambatan'){
       ok = ok && sel.alasan && (sel.alasan!==OTHER_VAL || alasanLainnyaInput.value.trim().length>0);
     } else {
-      ok = ok && !!sel.pelanggaran;
+      ok = ok && Object.keys(selPelanggaran).length>0;
     }
     saveBtn.disabled = !ok;
   }
 
   function resetFormSetelahSimpan(){
-    // Reset SEMUANYA termasuk Kelas -- sebelumnya Kelas tidak ikut ter-reset.
-    sel.kelas=null; sel.siswa=null; sel.nis=null; sel.alasan=null; sel.pelanggaran=null;
-    kelasSearch.value=''; siswaSearch.value=''; alasanSearch.value=''; pelanggaranSearch.value='';
+    sel.kelas=null; sel.siswa=null; sel.nis=null; sel.alasan=null;
+    kelasSearch.value=''; siswaSearch.value=''; alasanSearch.value='';
     siswaSearch.disabled = true;
     siswaSearch.placeholder = 'Pilih kelas terlebih dahulu…';
     nisHint.style.display='none';
     alasanLainnyaWrap.style.display='none'; alasanLainnyaInput.value='';
-    pelanggaranHint.style.display='none';
+    selPelanggaran = {}; pelanggaranSearch.value='';
+    renderPelanggaranChecklist('');
     updateSaveEnabled();
   }
 
@@ -506,11 +528,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
         petugas: petugasTerpilih,
       });
     } else {
-      if(!sel.pelanggaran){ saveBtn.disabled=false; saveBtn.textContent='Simpan Catatan'; return; }
+      const list = Object.values(selPelanggaran);
+      if(!list.length){ saveBtn.disabled=false; saveBtn.textContent='Simpan Catatan'; return; }
       qs = new URLSearchParams({
         action:'submit', jenis:'kedisiplinan',
         kelas: sel.kelas, nis: sel.nis||'', nama: sel.siswa,
-        pelanggaran: sel.pelanggaran.nama, tingkat: sel.pelanggaran.tingkat, poin: sel.pelanggaran.poin,
+        pelanggaranList: JSON.stringify(list),
         petugas: petugasTerpilih,
       });
     }
@@ -524,16 +547,15 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sa
         renderPetugasLockedUI(petugasTerpilih);
 
         const namaSiswa = sel.siswa;
+        const spInfo = result.isNewTier ? (' — mencapai ambang SP ' + result.spLabel + '! Cek sheet Rekap Semester untuk cetak suratnya.') : '.';
         if(jenisAktif === 'keterlambatan'){
-          showStatus(result.milestone ? 'milestone' : 'ok',
-            namaSiswa + ' sudah ' + result.count + 'x terlambat bulan ini' +
-            (result.milestone ? ' — otomatis tercatat di sheet Rekap.' : '.'),
-            result.milestone);
+          showStatus(result.isNewTier ? 'milestone' : 'ok',
+            namaSiswa + ' sudah ' + result.total + 'x terlambat semester ini' + spInfo,
+            result.isNewTier);
         } else {
-          showStatus(result.milestone ? 'milestone' : 'ok',
-            namaSiswa + ' sudah ' + result.totalPoin + ' poin bulan ini (ambang SP: ' + result.ambang + ')' +
-            (result.milestone ? ' — otomatis tercatat di sheet Rekap.' : '.'),
-            result.milestone);
+          showStatus(result.isNewTier ? 'milestone' : 'ok',
+            namaSiswa + ' +' + result.totalPoinKaliIni + ' poin (' + result.jumlahPelanggaran + ' pelanggaran), total ' + result.total + ' poin semester ini' + spInfo,
+            result.isNewTier);
         }
 
         if(jenisAktif==='keterlambatan' && sel.alasan===OTHER_VAL && document.getElementById('alasanLainnyaSaveChk').checked && state.alasan.indexOf(alasanLainnyaInput.value.trim())===-1){
