@@ -15,7 +15,7 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit}.page{max-width:1080px;margin:0 auto;padding:18px 20px 52px}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:13px 18px;box-shadow:var(--shadow);margin-bottom:14px}
-.brand{display:flex;align-items:center;gap:12px}.logo{width:50px;height:50px;object-fit:contain;border-radius:12px;background:#fff}.brand h1{font-size:16px;margin:0;color:var(--navy)}.brand p{font-size:11px;font-weight:700;letter-spacing:.55px;text-transform:uppercase;color:var(--muted);margin:3px 0 0}
+.brand{display:flex;align-items:center;gap:14px}.logo-wrap{width:68px;height:68px;flex:0 0 68px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;overflow:hidden}.logo{width:64px;height:64px;object-fit:contain;display:block}.logo-fallback{width:58px;height:58px;border-radius:14px;display:none;align-items:center;justify-content:center;background:var(--navy);color:#fff;font-weight:800;font-size:17px;letter-spacing:.5px}.brand h1{font-size:16px;margin:0;color:var(--navy)}.brand p{font-size:11px;font-weight:700;letter-spacing:.55px;text-transform:uppercase;color:var(--muted);margin:3px 0 0}
 .live{display:flex;align-items:center;gap:8px;border-radius:999px;padding:8px 13px;background:var(--green-bg);color:var(--green);font-size:12px;font-weight:800;white-space:nowrap}.dot{width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(22,135,95,.12)}
 .sync{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:12px 17px;border:1px solid #cfe3f7;background:#f8fbff;border-radius:15px;margin-bottom:14px}.sync strong{font-size:12px;color:var(--navy);text-transform:uppercase;letter-spacing:.45px}.sync span{font-size:12px;color:var(--muted)}
 .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#092f55,#0d5a94 58%,#2e89c9);border-radius:24px;padding:36px 38px;color:#fff;margin-bottom:18px}.hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-95px;top:-125px;border:34px solid rgba(255,255,255,.08)}.hero .tag{display:inline-block;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);border-radius:999px;padding:6px 12px;font-size:11px;font-weight:800;letter-spacing:.45px;margin-bottom:13px}.hero h2{font-size:29px;line-height:1.18;margin:0 0 8px}.hero p{max-width:650px;margin:0;color:rgba(255,255,255,.83);font-size:13px;line-height:1.65}
@@ -29,14 +29,14 @@ button,input,select{font:inherit}.page{max-width:1080px;margin:0 auto;padding:18
 .direct-note{margin-top:14px;padding:11px 13px;border-radius:11px;background:#f4f9ff;border:1px solid #dcecf9;font-size:11.5px;color:#526b81;line-height:1.55}.direct-note b{color:var(--navy)}
 .footer{text-align:center;margin-top:18px;font-size:10.5px;color:#7a8c9c}
 .hidden{display:none!important}
-@media(max-width:680px){.page{padding:12px 12px 38px}.topbar{padding:11px 13px}.logo{width:43px;height:43px}.live{font-size:0;padding:9px}.live .dot{margin:0}.hero{padding:28px 22px}.hero h2{font-size:24px}.tabs,.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.card{padding:19px}.actions{flex-direction:column-reverse}.btn{width:100%}.violation{grid-template-columns:22px 1fr}.pts{grid-column:2;justify-self:start}.sync{align-items:flex-start}}
+@media(max-width:680px){.page{padding:12px 12px 38px}.topbar{padding:11px 13px}.logo-wrap{width:56px;height:56px;flex-basis:56px}.logo{width:52px;height:52px}.logo-fallback{width:50px;height:50px}.live{font-size:0;padding:9px}.live .dot{margin:0}.hero{padding:28px 22px}.hero h2{font-size:24px}.tabs,.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.card{padding:19px}.actions{flex-direction:column-reverse}.btn{width:100%}.violation{grid-template-columns:22px 1fr}.pts{grid-column:2;justify-self:start}.sync{align-items:flex-start}}
 </style>
 </head>
 <body>
 <div class="page">
   <header class="topbar">
     <div class="brand">
-      <img class="logo" src="logo_sd.png" alt="Logo sekolah" />
+      <span class="logo-wrap"><img class="logo" src="https://sdislamtahfizhcahayaquran.github.io/SDCQ-Keterlambatan/logo_sd.png?v=20260917" alt="Logo CQ" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><span class="logo-fallback">CQ</span></span>
       <div><h1>SD Islam Tahfizh Cahaya Qur'an</h1><p>Form Kesiswaan</p></div>
     </div>
     <div class="live" id="connectionBadge"><span class="dot"></span><span>Terhubung CQlass</span></div>
