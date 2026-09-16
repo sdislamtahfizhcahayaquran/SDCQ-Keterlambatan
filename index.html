@@ -1,576 +1,171 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0d3b66" />
 <title>Form Kesiswaan — SD Islam Tahfizh Cahaya Qur'an</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
 :root{
-  --ink:#132a23; --ink-soft:#5d6d67; --bg:#f2f6f3; --panel:#ffffff; --line:#e2e8e4;
-  --teal-dark:#0c3a30; --teal:#1d6b57; --teal-light:#4c9c82;
-  --gold:#c99a3f; --gold-soft:#f5ead0;
-  --success:#2f8f5d; --success-soft:#dcf0e5;
-  --danger:#b3462c; --danger-soft:#f6ddd3;
-  --radius:16px;
+  --navy:#0d3b66;--blue:#1769aa;--sky:#eaf4ff;--ink:#17324d;--muted:#66798c;
+  --bg:#f4f8fc;--panel:#fff;--line:#dbe5ef;--green:#16875f;--green-bg:#e7f7f0;
+  --red:#bb4234;--red-bg:#fff0ed;--amber:#9a6a13;--amber-bg:#fff5dc;--shadow:0 14px 42px rgba(13,59,102,.08);
 }
-*{box-sizing:border-box;}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
-.page{max-width:1080px;margin:0 auto;padding:18px 20px 60px;}
-
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border-radius:20px;padding:14px 22px;box-shadow:0 6px 24px rgba(12,58,48,.06);margin-bottom:14px;}
-.brand{display:flex;align-items:center;gap:14px;}
-.logo-slot{width:52px;height:52px;border-radius:14px;background:var(--teal-dark);color:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;}
-.brand h1{font-size:17px;margin:0;color:var(--teal-dark);}
-.brand p{font-size:11.5px;margin:3px 0 0;color:var(--ink-soft);letter-spacing:.6px;text-transform:uppercase;font-weight:700;}
-.status-pill{display:flex;align-items:center;gap:8px;background:var(--success-soft);color:var(--success);padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;}
-.status-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 0 4px rgba(47,143,93,.18);}
-
-/* Piket panel */
-.piket-panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 20px;margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
-.piket-panel .piket-title{font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--teal);white-space:nowrap;}
-.piket-chip{background:var(--bg);border-radius:10px;padding:7px 12px;font-size:13px;}
-.piket-chip b{color:var(--teal-dark);}
-.piket-empty{font-size:12.5px;color:var(--ink-soft);}
-
-/* Hero */
-.hero{position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(135deg, var(--teal-dark), var(--teal) 55%, var(--teal-light));padding:40px 40px;color:#fff;margin-bottom:20px;}
-.hero-pattern{position:absolute;inset:0;opacity:.14;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E");background-size:80px 80px;}
-.hero-inner{position:relative;}
-.eyebrow{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:7px 14px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.6px;margin-bottom:16px;}
-.hero h2{font-size:32px;line-height:1.15;margin:0 0 10px;font-weight:800;}
-.hero p{font-size:14px;line-height:1.6;color:rgba(255,255,255,.85);max-width:520px;margin:0;}
-
-/* Category tabs */
-.tabs{display:flex;gap:10px;margin-bottom:16px;}
-.tab-btn{flex:1;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;transition:.15s;}
-.tab-btn strong{display:block;font-size:14.5px;color:var(--ink);}
-.tab-btn span{font-size:12px;color:var(--ink-soft);}
-.tab-btn.active{border-color:var(--teal);background:var(--teal-dark);}
-.tab-btn.active strong,.tab-btn.active span{color:#fff;}
-.tab-btn.active span{color:rgba(255,255,255,.75);}
-.tab-icon{width:15px;height:15px;vertical-align:-2px;margin-right:5px;display:inline-block;}
-.status-icon{width:15px;height:15px;vertical-align:-2px;margin-right:5px;display:inline-block;}
-
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:0 10px 30px rgba(12,58,48,.05);}
-.card h3{font-size:15px;color:var(--teal-dark);margin:0 0 18px;}
-
-.status-box{border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:16px;display:none;}
-.status-box.ok{display:block;background:var(--success-soft);color:var(--success);}
-.status-box.milestone{display:block;background:var(--gold-soft);color:#8a6417;}
-.status-box.err{display:block;background:var(--danger-soft);color:var(--danger);}
-.status-box.loading{display:block;background:#eef1f6;color:var(--ink-soft);}
-
-.field{margin-bottom:16px;position:relative;}
-.field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:7px;}
-.field input[type=text]{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;font-size:14.5px;color:var(--ink);background:#fbfcfb;}
-.field input:focus{outline:none;border-color:var(--teal);background:#fff;}
-.field input:disabled{background:#f1f2f3;color:#9aa2ae;}
-.field .hint{font-size:11.5px;color:var(--ink-soft);margin-top:6px;}
-
-.combo{position:relative;}
-.combo-options{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--line);border-radius:11px;max-height:220px;overflow-y:auto;z-index:30;box-shadow:0 10px 28px rgba(12,58,48,.12);}
-.combo-options.hidden{display:none;}
-.combo-opt{padding:10px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid #f1f2f5;}
-.combo-opt:last-child{border-bottom:none;}
-.combo-opt:hover,.combo-opt.hl{background:var(--bg);}
-.combo-opt.other{color:var(--teal);font-weight:700;}
-.combo-opt .opt-nis{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px;}
-.combo-opt .opt-meta{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px;}
-.combo-empty{padding:11px 14px;font-size:13px;color:var(--ink-soft);}
-
-.checkbox-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);margin-top:8px;}
-
-/* Checklist pelanggaran (kedisiplinan -- bisa pilih banyak) */
-.checklist-box{max-height:240px;overflow-y:auto;border:1.5px solid var(--line);border-radius:11px;margin-top:8px;background:#fbfcfb;}
-.checklist-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid #f1f2f5;font-size:13.5px;cursor:pointer;}
-.checklist-item:last-child{border-bottom:none;}
-.checklist-item:hover{background:var(--bg);}
-.checklist-item input[type=checkbox]{width:17px;height:17px;flex-shrink:0;accent-color:var(--teal-dark);}
-.checklist-item .opt-meta{margin-left:auto;font-size:11px;color:var(--ink-soft);white-space:nowrap;}
-.pelanggaran-total{font-size:12.5px;font-weight:700;color:var(--teal-dark);margin-top:8px;}
-
-.chip-row{display:flex;gap:8px;flex-wrap:wrap;}
-.chip-btn{border:1.5px solid var(--line);background:#fbfcfb;border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--ink);}
-.chip-btn.sel{background:var(--teal-dark);border-color:var(--teal-dark);color:#fff;}
-.petugas-locked{display:flex;align-items:center;gap:10px;background:var(--success-soft);color:var(--success);border-radius:11px;padding:11px 14px;font-size:13.5px;font-weight:700;}
-.petugas-locked button{margin-left:auto;background:none;border:none;color:var(--success);text-decoration:underline;cursor:pointer;font-size:12px;font-weight:600;}
-
-.btn-primary{background:var(--teal-dark);color:#fff;padding:13px 20px;border:none;border-radius:11px;font-weight:700;font-size:14.5px;width:100%;cursor:pointer;transition:.15s;}
-.btn-primary:hover:not(:disabled){background:var(--teal);}
-.btn-primary:disabled{background:#c7ccd4;cursor:not-allowed;}
-
-.footnote{font-size:11.5px;color:var(--ink-soft);text-align:center;margin-top:22px;}
-
-@media(max-width:640px){
-  .hero{padding:28px 22px;}
-  .hero h2{font-size:26px;}
-  .card{padding:20px;}
-  .tabs{flex-direction:column;}
-}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit}.page{max-width:1080px;margin:0 auto;padding:18px 20px 52px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:13px 18px;box-shadow:var(--shadow);margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:50px;height:50px;object-fit:contain;border-radius:12px;background:#fff}.brand h1{font-size:16px;margin:0;color:var(--navy)}.brand p{font-size:11px;font-weight:700;letter-spacing:.55px;text-transform:uppercase;color:var(--muted);margin:3px 0 0}
+.live{display:flex;align-items:center;gap:8px;border-radius:999px;padding:8px 13px;background:var(--green-bg);color:var(--green);font-size:12px;font-weight:800;white-space:nowrap}.dot{width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(22,135,95,.12)}
+.sync{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:12px 17px;border:1px solid #cfe3f7;background:#f8fbff;border-radius:15px;margin-bottom:14px}.sync strong{font-size:12px;color:var(--navy);text-transform:uppercase;letter-spacing:.45px}.sync span{font-size:12px;color:var(--muted)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#092f55,#0d5a94 58%,#2e89c9);border-radius:24px;padding:36px 38px;color:#fff;margin-bottom:18px}.hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-95px;top:-125px;border:34px solid rgba(255,255,255,.08)}.hero .tag{display:inline-block;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);border-radius:999px;padding:6px 12px;font-size:11px;font-weight:800;letter-spacing:.45px;margin-bottom:13px}.hero h2{font-size:29px;line-height:1.18;margin:0 0 8px}.hero p{max-width:650px;margin:0;color:rgba(255,255,255,.83);font-size:13px;line-height:1.65}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.tab{border:1.5px solid var(--line);background:#fff;border-radius:15px;padding:14px 16px;text-align:left;cursor:pointer;transition:.16s}.tab b{display:block;color:var(--ink);font-size:14px}.tab small{display:block;color:var(--muted);font-size:11.5px;margin-top:3px}.tab.active{background:var(--navy);border-color:var(--navy)}.tab.active b,.tab.active small{color:#fff}.tab.active small{opacity:.78}
+.card{background:#fff;border:1px solid var(--line);border-radius:19px;padding:25px;box-shadow:var(--shadow)}.card-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:19px}.card-title h3{font-size:15px;margin:0;color:var(--navy)}.badge{font-size:10.5px;background:var(--sky);color:var(--blue);font-weight:800;padding:6px 9px;border-radius:999px}
+.status{display:none;border-radius:12px;padding:11px 13px;margin-bottom:16px;font-size:12.5px;line-height:1.5}.status.show{display:block}.status.loading{background:#edf3f8;color:#566a7d}.status.ok{background:var(--green-bg);color:var(--green)}.status.err{background:var(--red-bg);color:var(--red)}.status.warn{background:var(--amber-bg);color:var(--amber)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{position:relative}.field.full{grid-column:1/-1}.field label{display:block;font-size:12px;font-weight:800;color:#526b81;margin-bottom:7px}.field select,.field input[type=text]{width:100%;height:45px;border:1.5px solid var(--line);background:#fbfdff;color:var(--ink);border-radius:11px;padding:0 12px;outline:none;transition:.14s}.field input:focus,.field select:focus{border-color:#6aa7d7;background:#fff;box-shadow:0 0 0 3px rgba(23,105,170,.07)}.field input:disabled,.field select:disabled{background:#f1f4f7;color:#96a2ad}.hint{font-size:11px;color:var(--muted);margin-top:6px}
+.suggestions{position:absolute;z-index:30;left:0;right:0;top:72px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 35px rgba(13,59,102,.14);max-height:250px;overflow:auto;display:none}.suggestions.show{display:block}.suggestion{padding:10px 12px;border-bottom:1px solid #edf2f6;cursor:pointer}.suggestion:last-child{border-bottom:0}.suggestion:hover{background:#f2f8fe}.suggestion b{display:block;font-size:13px}.suggestion small{font-size:10.5px;color:var(--muted)}
+.violation-tools{display:flex;align-items:center;gap:10px;margin-bottom:8px}.violation-tools input{flex:1}.selected-count{white-space:nowrap;font-size:11px;font-weight:800;color:var(--blue)}.violations{border:1.5px solid var(--line);border-radius:12px;max-height:280px;overflow:auto;background:#fbfdff}.violation{display:grid;grid-template-columns:22px 1fr auto;gap:9px;align-items:center;padding:10px 12px;border-bottom:1px solid #edf2f6;cursor:pointer}.violation:last-child{border-bottom:0}.violation:hover{background:#f2f8fe}.violation input{width:17px;height:17px;accent-color:var(--navy)}.violation b{font-size:12.5px;font-weight:700}.violation small{display:block;font-size:10.5px;color:var(--muted);margin-top:2px}.pts{font-size:10.5px;font-weight:800;color:var(--navy);background:var(--sky);padding:5px 7px;border-radius:8px}
+.custom-reason{margin-top:8px;display:none}.custom-reason.show{display:block}.actions{margin-top:20px;display:flex;align-items:center;gap:10px}.btn{border:0;border-radius:11px;height:46px;padding:0 20px;font-weight:800;cursor:pointer}.btn-primary{background:var(--navy);color:#fff;flex:1}.btn-primary:hover:not(:disabled){background:var(--blue)}.btn:disabled{opacity:.45;cursor:not-allowed}.clear{background:#eef3f7;color:#526b81}
+.direct-note{margin-top:14px;padding:11px 13px;border-radius:11px;background:#f4f9ff;border:1px solid #dcecf9;font-size:11.5px;color:#526b81;line-height:1.55}.direct-note b{color:var(--navy)}
+.footer{text-align:center;margin-top:18px;font-size:10.5px;color:#7a8c9c}
+.hidden{display:none!important}
+@media(max-width:680px){.page{padding:12px 12px 38px}.topbar{padding:11px 13px}.logo{width:43px;height:43px}.live{font-size:0;padding:9px}.live .dot{margin:0}.hero{padding:28px 22px}.hero h2{font-size:24px}.tabs,.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.card{padding:19px}.actions{flex-direction:column-reverse}.btn{width:100%}.violation{grid-template-columns:22px 1fr}.pts{grid-column:2;justify-self:start}.sync{align-items:flex-start}}
 </style>
 </head>
 <body>
 <div class="page">
-
   <header class="topbar">
     <div class="brand">
-      <div class="logo-slot">CQ</div>
-      <div>
-        <h1>SD Islam Tahfizh Cahaya Qur'an</h1>
-        <p>Form Kesiswaan</p>
-      </div>
+      <img class="logo" src="logo_sd.png" alt="Logo sekolah" />
+      <div><h1>SD Islam Tahfizh Cahaya Qur'an</h1><p>Form Kesiswaan</p></div>
     </div>
-    <div class="status-pill"><span class="dot"></span> Piket Aktif</div>
+    <div class="live" id="connectionBadge"><span class="dot"></span><span>Terhubung CQlass</span></div>
   </header>
 
-  <div id="piketPanel" class="piket-panel">
-    <span class="piket-title">Piket Hari Ini</span>
-    <span id="piketContent" class="piket-empty">Memuat jadwal…</span>
+  <div class="sync">
+    <strong>Database langsung: CQlass</strong>
+    <span id="syncInfo">Menghubungkan ke data sekolah…</span>
   </div>
 
   <section class="hero">
-    <div class="hero-pattern"></div>
-    <div class="hero-inner">
-      <span class="eyebrow">MENUJU SEKOLAH TERTIB & TEPAT WAKTU</span>
-      <h2>Form Pencatatan Kesiswaan</h2>
-      <p>Pilih jenis pencatatan, isi kelas dan nama siswa, lalu simpan — data langsung tercatat dan dihitung otomatis, akumulasi per semester berjalan.</p>
-    </div>
+    <span class="tag">KESISWAAN • PENCATATAN LANGSUNG</span>
+    <h2>Keterlambatan & Pelanggaran Siswa</h2>
+    <p>Data dari halaman ini langsung masuk ke rekap Kedisiplinan/Pelanggaran CQlass. Tidak melalui Google Sheet dan tidak perlu sinkronisasi ulang.</p>
   </section>
 
   <div class="tabs">
-    <div id="tabTelat" class="tab-btn active" data-jenis="keterlambatan">
-      <strong><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Keterlambatan</strong>
-      <span>Catat siswa yang datang terlambat</span>
-    </div>
-    <div id="tabDisiplin" class="tab-btn" data-jenis="kedisiplinan">
-      <strong><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>Kedisiplinan</strong>
-      <span>Catat pelanggaran tata tertib siswa (bisa lebih dari satu)</span>
-    </div>
+    <button class="tab active" id="tabLate" type="button"><b>◷ Keterlambatan</b><small>Catat siswa yang datang terlambat</small></button>
+    <button class="tab" id="tabDiscipline" type="button"><b>⚠ Kedisiplinan</b><small>Pilih satu atau beberapa pelanggaran</small></button>
   </div>
 
-  <section class="form-section">
-    <div class="card">
-      <h3 id="cardTitle">Form Keterlambatan</h3>
-      <div id="statusBox" class="status-box loading">Memuat data…</div>
+  <main class="card">
+    <div class="card-title"><h3 id="formTitle">Form Keterlambatan</h3><span class="badge">Tahun Ajaran <span id="yearBadge">—</span></span></div>
+    <div id="status" class="status loading show">Memuat kelas, siswa, dan master pelanggaran dari CQlass…</div>
 
+    <div class="grid">
       <div class="field">
-        <label>Kelas</label>
-        <div class="combo">
-          <input id="kelasSearch" type="text" placeholder="Ketik untuk cari kelas…" autocomplete="off" disabled>
-          <div id="kelasOptions" class="combo-options hidden"></div>
-        </div>
+        <label for="classSelect">Kelas</label>
+        <select id="classSelect" disabled><option value="">Pilih kelas</option></select>
       </div>
-
       <div class="field">
-        <label>Nama Siswa</label>
-        <div class="combo">
-          <input id="siswaSearch" type="text" placeholder="Pilih kelas terlebih dahulu…" autocomplete="off" disabled>
-          <div id="siswaOptions" class="combo-options hidden"></div>
-        </div>
-        <div id="nisHint" class="hint" style="display:none;"></div>
+        <label for="studentSearch">Nama Siswa</label>
+        <input id="studentSearch" type="text" autocomplete="off" placeholder="Pilih kelas terlebih dahulu" disabled />
+        <div id="studentSuggestions" class="suggestions"></div>
+        <div id="studentHint" class="hint">—</div>
       </div>
 
-      <div id="fieldAlasan" class="field">
-        <label>Alasan Terlambat</label>
-        <div class="combo">
-          <input id="alasanSearch" type="text" placeholder="Ketik minimal 1 huruf…" autocomplete="off" disabled>
-          <div id="alasanOptions" class="combo-options hidden"></div>
-        </div>
-        <div id="alasanLainnyaWrap" style="display:none;margin-top:8px;">
-          <input id="alasanLainnyaInput" type="text" placeholder="Tulis alasan lain di sini…">
-          <label class="checkbox-row"><input type="checkbox" id="alasanLainnyaSaveChk" checked> Tambahkan ke daftar pilihan alasan</label>
-        </div>
+      <div id="lateFields" class="field full">
+        <label for="reasonSelect">Alasan Terlambat</label>
+        <select id="reasonSelect" disabled><option value="">Pilih alasan</option></select>
+        <div id="customReasonWrap" class="custom-reason"><input id="customReason" type="text" maxlength="240" placeholder="Tuliskan alasan keterlambatan…" /></div>
       </div>
 
-      <div id="fieldPelanggaran" class="field" style="display:none;">
-        <label>Jenis Pelanggaran (boleh centang lebih dari satu)</label>
-        <input id="pelanggaranSearch" type="text" placeholder="Ketik untuk cari jenis pelanggaran…" autocomplete="off" disabled>
-        <div id="pelanggaranChecklist" class="checklist-box"></div>
-        <div id="pelanggaranTotal" class="pelanggaran-total"></div>
+      <div id="disciplineFields" class="field full hidden">
+        <label>Jenis Pelanggaran</label>
+        <div class="violation-tools">
+          <input id="violationSearch" type="text" placeholder="Cari pelanggaran…" disabled />
+          <span id="selectedCount" class="selected-count">0 dipilih</span>
+        </div>
+        <div id="violationList" class="violations"></div>
+        <div class="hint">Pelanggaran “Telat” tidak ditampilkan di sini karena dicatat melalui tab Keterlambatan.</div>
       </div>
 
-      <div class="field">
-        <label>Petugas Input</label>
-        <div id="petugasLocked" class="petugas-locked" style="display:none;">
-          <span>Petugas: <span id="petugasLockedName"></span></span>
-          <button id="petugasGantiBtn" type="button">Ganti</button>
-        </div>
-        <div id="petugasPicker">
-          <div id="petugasChips" class="chip-row"></div>
-          <div id="petugasLainnyaWrap" style="display:none;margin-top:8px;">
-            <input id="petugasLainnyaInput" type="text" placeholder="Tulis nama petugas…">
-          </div>
-        </div>
-        <div class="hint">Dipilih sekali, akan diingat browser ini untuk hari yang sama. Bukan verifikasi identitas — hanya kenyamanan.</div>
+      <div class="field full">
+        <label for="officerInput">Petugas Input</label>
+        <input id="officerInput" type="text" maxlength="120" placeholder="Nama guru/petugas yang mencatat" disabled />
+        <div class="hint">Nama petugas tersimpan di perangkat ini agar tidak perlu diketik berulang kali.</div>
       </div>
-
-      <button id="saveBtn" class="btn-primary" disabled>Simpan Catatan</button>
     </div>
-    <p class="footnote">Data tersimpan langsung ke Google Sheet sekolah — tanggal & jam otomatis dari server. Total dihitung akumulasi per semester berjalan.</p>
-  </section>
 
+    <div class="actions">
+      <button id="clearBtn" class="btn clear" type="button" disabled>Bersihkan</button>
+      <button id="saveBtn" class="btn btn-primary" type="button" disabled>Simpan Langsung ke CQlass</button>
+    </div>
+
+    <div class="direct-note"><b>Anti-duplikat aktif.</b> Siswa yang sama tidak bisa mendapat jenis pelanggaran yang sama dua kali pada tanggal yang sama. Data tetap memakai master poin resmi CQlass.</div>
+  </main>
+  <div class="footer">SD Islam Tahfizh Cahaya Qur'an • Sumber data: CQlass</div>
 </div>
-
 <script>
-(function(){
-  // Ganti dengan URL Web App Apps Script kamu (harus diakhiri /exec)
-  const API_URL = 'https://script.google.com/macros/s/AKfycbzBYQZuPCO08hj6x4HInojXRkVl2EOvViHXk_TkyceC5_sfzaNiMjPzhUx45jRCcJiKeg/exec';
-
-  const OTHER_VAL = '__LAINNYA__';
-  let state = { kelas:[], siswa:[], alasan:[], pelanggaran:[], piketHariIni:null };
-  let sel = { kelas:null, siswa:null, nis:null, alasan:null };
-  let selPelanggaran = {}; // { namaPelanggaran: {nama,tingkat,poin} }
-  let jenisAktif = 'keterlambatan';
-
-  const statusBox = document.getElementById('statusBox');
-  const cardTitle = document.getElementById('cardTitle');
-  const tabTelat = document.getElementById('tabTelat');
-  const tabDisiplin = document.getElementById('tabDisiplin');
-  const fieldAlasan = document.getElementById('fieldAlasan');
-  const fieldPelanggaran = document.getElementById('fieldPelanggaran');
-
-  const kelasSearch = document.getElementById('kelasSearch');
-  const kelasOptions = document.getElementById('kelasOptions');
-  const siswaSearch = document.getElementById('siswaSearch');
-  const siswaOptions = document.getElementById('siswaOptions');
-  const nisHint = document.getElementById('nisHint');
-  const alasanSearch = document.getElementById('alasanSearch');
-  const alasanOptions = document.getElementById('alasanOptions');
-  const alasanLainnyaWrap = document.getElementById('alasanLainnyaWrap');
-  const alasanLainnyaInput = document.getElementById('alasanLainnyaInput');
-  const pelanggaranSearch = document.getElementById('pelanggaranSearch');
-  const pelanggaranChecklist = document.getElementById('pelanggaranChecklist');
-  const pelanggaranTotalEl = document.getElementById('pelanggaranTotal');
-  const petugasChips = document.getElementById('petugasChips');
-  const petugasLainnyaWrap = document.getElementById('petugasLainnyaWrap');
-  const petugasLainnyaInput = document.getElementById('petugasLainnyaInput');
-  const petugasLocked = document.getElementById('petugasLocked');
-  const petugasLockedName = document.getElementById('petugasLockedName');
-  const petugasGantiBtn = document.getElementById('petugasGantiBtn');
-  const petugasPicker = document.getElementById('petugasPicker');
-  const piketContent = document.getElementById('piketContent');
-  const saveBtn = document.getElementById('saveBtn');
-
-  let petugasTerpilih = null;
-
-  function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-  const BELL_SVG = '<svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>';
-  function showStatus(cls, msg, withBell){
-    statusBox.className='status-box '+cls;
-    statusBox.innerHTML = (withBell ? BELL_SVG : '') + escapeHtml(msg);
-  }
-  function closeAllCombos(){ document.querySelectorAll('.combo-options').forEach(o=>o.classList.add('hidden')); }
-  document.addEventListener('click', (e)=>{ if(!e.target.closest('.combo')) closeAllCombos(); });
-
-  // ---- JSONP helper ----
-  function jsonp(url, onSuccess, onError){
-    const cbName = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-    const script = document.createElement('script');
-    const timer = setTimeout(()=>{ cleanup(); onError(new Error('Waktu tunggu habis, server tidak merespons.')); }, 15000);
-    function cleanup(){ delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); clearTimeout(timer); }
-    window[cbName] = function(data){ cleanup(); onSuccess(data); };
-    script.onerror = function(){ cleanup(); onError(new Error('Gagal menghubungi server. Cek URL Apps Script.')); };
-    script.src = url + (url.indexOf('?')>-1 ? '&' : '?') + 'callback=' + cbName;
-    document.head.appendChild(script);
-  }
-
-  // ---- Petugas: localStorage, hanya berlaku untuk hari yang sama ----
-  function todayKey(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
-  function loadPetugasTersimpan(){
-    try{
-      const raw = localStorage.getItem('cq_petugas_input');
-      if(!raw) return null;
-      const obj = JSON.parse(raw);
-      if(obj.tanggal !== todayKey()) return null;
-      return obj.nama || null;
-    }catch(e){ return null; }
-  }
-  function simpanPetugas(nama){
-    try{ localStorage.setItem('cq_petugas_input', JSON.stringify({ nama: nama, tanggal: todayKey() })); }catch(e){}
-  }
-  function hapusPetugasTersimpan(){
-    try{ localStorage.removeItem('cq_petugas_input'); }catch(e){}
-  }
-  function renderPetugasLockedUI(nama){
-    petugasTerpilih = nama;
-    petugasLockedName.textContent = nama;
-    petugasLocked.style.display='flex';
-    petugasPicker.style.display='none';
-    updateSaveEnabled();
-  }
-  function renderPetugasPickerUI(){
-    petugasTerpilih = null;
-    petugasLocked.style.display='none';
-    petugasPicker.style.display='block';
-    updateSaveEnabled();
-  }
-  petugasGantiBtn.addEventListener('click', ()=>{ hapusPetugasTersimpan(); renderPetugasPickerUI(); });
-
-  function renderPetugasChips(){
-    const p = state.piketHariIni;
-    const names = [];
-    if(p){ [p.gerbangAtas, p.gerbangBawah, p.uks].forEach(n=>{ if(n && names.indexOf(n)===-1) names.push(n); }); }
-    let html = names.map(n=>`<div class="chip-btn" data-val="${escapeHtml(n)}">${escapeHtml(n)}</div>`).join('');
-    html += `<div class="chip-btn" data-val="${OTHER_VAL}">+ Lainnya</div>`;
-    petugasChips.innerHTML = html;
-  }
-  petugasChips.addEventListener('click', (e)=>{
-    const chip = e.target.closest('.chip-btn'); if(!chip) return;
-    document.querySelectorAll('#petugasChips .chip-btn').forEach(c=>c.classList.remove('sel'));
-    chip.classList.add('sel');
-    if(chip.dataset.val === OTHER_VAL){
-      petugasLainnyaWrap.style.display='block';
-      petugasLainnyaInput.focus();
-      petugasTerpilih = null;
-    } else {
-      petugasLainnyaWrap.style.display='none';
-      petugasTerpilih = chip.dataset.val;
-    }
-    updateSaveEnabled();
-  });
-  petugasLainnyaInput.addEventListener('input', ()=>{
-    petugasTerpilih = petugasLainnyaInput.value.trim() || null;
-    updateSaveEnabled();
-  });
-
-  function renderPiketPanel(){
-    const p = state.piketHariIni;
-    if(!p){ piketContent.className='piket-empty'; piketContent.textContent = 'Belum ada jadwal piket untuk hari ini.'; return; }
-    piketContent.className='';
-    piketContent.innerHTML =
-      `<span class="piket-chip"><b>${escapeHtml(p.hari)}, ${escapeHtml(p.tanggalLabel)}</b></span> ` +
-      `<span class="piket-chip">Gerbang Atas: <b>${escapeHtml(p.gerbangAtas||'-')}</b></span>` +
-      `<span class="piket-chip">Gerbang Bawah: <b>${escapeHtml(p.gerbangBawah||'-')}</b></span>` +
-      `<span class="piket-chip">UKS: <b>${escapeHtml(p.uks||'-')}</b></span>`;
-  }
-
-  // ---- Tabs ----
-  function setJenis(j){
-    jenisAktif = j;
-    tabTelat.classList.toggle('active', j==='keterlambatan');
-    tabDisiplin.classList.toggle('active', j==='kedisiplinan');
-    fieldAlasan.style.display = j==='keterlambatan' ? 'block' : 'none';
-    fieldPelanggaran.style.display = j==='kedisiplinan' ? 'block' : 'none';
-    cardTitle.textContent = j==='keterlambatan' ? 'Form Keterlambatan' : 'Form Kedisiplinan';
-    sel.alasan = null;
-    alasanSearch.value=''; alasanLainnyaWrap.style.display='none';
-    selPelanggaran = {}; pelanggaranSearch.value='';
-    renderPelanggaranChecklist('');
-    updateSaveEnabled();
-  }
-  tabTelat.addEventListener('click', ()=>setJenis('keterlambatan'));
-  tabDisiplin.addEventListener('click', ()=>setJenis('kedisiplinan'));
-
-  // ---- Load data from Apps Script API ----
-  jsonp(API_URL + '?action=data',
-    (data)=>{
-      state.kelas = data.kelas || [];
-      state.siswa = data.siswa || [];
-      state.alasan = data.alasan || [];
-      state.pelanggaran = data.pelanggaran || [];
-      state.piketHariIni = data.piketHariIni || null;
-      kelasSearch.disabled = false;
-      alasanSearch.disabled = false;
-      pelanggaranSearch.disabled = false;
-      kelasSearch.placeholder = 'Ketik untuk cari kelas… (contoh: 7A)';
-      statusBox.style.display='none';
-      renderPiketPanel();
-      renderPetugasChips();
-      renderPelanggaranChecklist('');
-      const tersimpan = loadPetugasTersimpan();
-      if(tersimpan) renderPetugasLockedUI(tersimpan); else renderPetugasPickerUI();
-    },
-    (err)=>{ showStatus('err', 'Gagal memuat data dari server. Pastikan URL Apps Script benar dan sudah di-deploy ulang. (' + err.message + ')'); }
-  );
-
-  // ---- Kelas combo ----
-  function renderKelasOptions(query){
-    const q=(query||'').trim().toLowerCase();
-    const items = state.kelas.filter(k=>k.toLowerCase().includes(q));
-    if(!items.length){ kelasOptions.innerHTML='<div class="combo-empty">Kelas tidak ditemukan.</div>'; kelasOptions.classList.remove('hidden'); return; }
-    kelasOptions.innerHTML = items.map(k=>`<div class="combo-opt" data-val="${escapeHtml(k)}">${escapeHtml(k)}</div>`).join('');
-    kelasOptions.classList.remove('hidden');
-  }
-  kelasSearch.addEventListener('focus', ()=>{ if(!kelasSearch.disabled) renderKelasOptions(kelasSearch.value); });
-  kelasSearch.addEventListener('input', ()=>renderKelasOptions(kelasSearch.value));
-  kelasOptions.addEventListener('click', (e)=>{
-    const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
-    sel.kelas = opt.dataset.val;
-    kelasSearch.value = sel.kelas;
-    kelasOptions.classList.add('hidden');
-    sel.siswa=null; sel.nis=null; siswaSearch.value='';
-    nisHint.style.display='none';
-    siswaSearch.disabled=false;
-    siswaSearch.placeholder='Ketik nama siswa…';
-    updateSaveEnabled();
-  });
-
-  // ---- Siswa combo ----
-  function renderSiswaOptions(query){
-    if(!sel.kelas){ siswaOptions.classList.add('hidden'); return; }
-    const q=(query||'').trim().toLowerCase();
-    const items = state.siswa.filter(s=>s.kelas===sel.kelas && (q==='' || s.nama.toLowerCase().includes(q)));
-    if(!items.length){ siswaOptions.innerHTML='<div class="combo-empty">Belum ada siswa di kelas ini.</div>'; siswaOptions.classList.remove('hidden'); return; }
-    siswaOptions.innerHTML = items.map(s=>`<div class="combo-opt" data-val="${escapeHtml(s.nama)}" data-nis="${escapeHtml(s.nis)}">${escapeHtml(s.nama)}<span class="opt-nis">NIS: ${escapeHtml(s.nis)}</span></div>`).join('');
-    siswaOptions.classList.remove('hidden');
-  }
-  siswaSearch.addEventListener('focus', ()=>{ if(!siswaSearch.disabled) renderSiswaOptions(siswaSearch.value); });
-  siswaSearch.addEventListener('input', ()=>renderSiswaOptions(siswaSearch.value));
-  siswaOptions.addEventListener('click', (e)=>{
-    const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
-    sel.siswa = opt.dataset.val;
-    sel.nis = opt.dataset.nis || '';
-    siswaSearch.value = sel.siswa;
-    siswaOptions.classList.add('hidden');
-    if(sel.nis){ nisHint.style.display='block'; nisHint.textContent = 'NIS: ' + sel.nis; } else { nisHint.style.display='none'; }
-    updateSaveEnabled();
-  });
-
-  // ---- Alasan combo (keterlambatan) ----
-  function renderAlasanOptions(query){
-    const q=(query||'').trim().toLowerCase();
-    const items = q==='' ? state.alasan.slice() : state.alasan.filter(a=>a.toLowerCase().includes(q));
-    let html = items.map(a=>`<div class="combo-opt" data-val="${escapeHtml(a)}">${escapeHtml(a)}</div>`).join('');
-    if(!items.length) html = '<div class="combo-empty">Tidak ada yang cocok.</div>';
-    html += `<div class="combo-opt other" data-val="${OTHER_VAL}">+ Lainnya (tulis sendiri)</div>`;
-    alasanOptions.innerHTML = html;
-    alasanOptions.classList.remove('hidden');
-  }
-  alasanSearch.addEventListener('focus', ()=>{ if(!alasanSearch.disabled) renderAlasanOptions(alasanSearch.value); });
-  alasanSearch.addEventListener('input', ()=>renderAlasanOptions(alasanSearch.value));
-  alasanOptions.addEventListener('click', (e)=>{
-    const opt=e.target.closest('.combo-opt'); if(!opt || !opt.dataset.val) return;
-    if(opt.dataset.val === OTHER_VAL){
-      sel.alasan = OTHER_VAL; alasanSearch.value = 'Lainnya';
-      alasanLainnyaWrap.style.display='block'; alasanLainnyaInput.focus();
-    } else {
-      sel.alasan = opt.dataset.val; alasanSearch.value = opt.dataset.val;
-      alasanLainnyaWrap.style.display='none';
-    }
-    alasanOptions.classList.add('hidden');
-    updateSaveEnabled();
-  });
-  alasanLainnyaInput.addEventListener('input', updateSaveEnabled);
-
-  // ---- Pelanggaran checklist (kedisiplinan -- bisa pilih banyak) ----
-  function renderPelanggaranChecklist(query){
-    const q=(query||'').trim().toLowerCase();
-    const items = state.pelanggaran.filter(p=>p.nama.toLowerCase().includes(q));
-    if(!items.length){ pelanggaranChecklist.innerHTML='<div class="combo-empty">Tidak ada yang cocok. Cek sheet "Jenis Pelanggaran".</div>'; updatePelanggaranTotal(); return; }
-    pelanggaranChecklist.innerHTML = items.map(p=>{
-      const checked = selPelanggaran[p.nama] ? 'checked' : '';
-      return `<label class="checklist-item">` +
-        `<input type="checkbox" data-nama="${escapeHtml(p.nama)}" data-tingkat="${escapeHtml(p.tingkat)}" data-poin="${p.poin}" ${checked}>` +
-        `<span>${escapeHtml(p.nama)}</span>` +
-        `<span class="opt-meta">${escapeHtml(p.tingkat)} · ${p.poin} poin</span>` +
-        `</label>`;
-    }).join('');
-    updatePelanggaranTotal();
-  }
-  pelanggaranSearch.addEventListener('focus', ()=>{ if(!pelanggaranSearch.disabled) renderPelanggaranChecklist(pelanggaranSearch.value); });
-  pelanggaranSearch.addEventListener('input', ()=>renderPelanggaranChecklist(pelanggaranSearch.value));
-  pelanggaranChecklist.addEventListener('change', (e)=>{
-    const cb = e.target.closest('input[type=checkbox]'); if(!cb) return;
-    const nama = cb.dataset.nama;
-    if(cb.checked) selPelanggaran[nama] = { nama: nama, tingkat: cb.dataset.tingkat, poin: Number(cb.dataset.poin) };
-    else delete selPelanggaran[nama];
-    updatePelanggaranTotal();
-    updateSaveEnabled();
-  });
-  function updatePelanggaranTotal(){
-    const vals = Object.values(selPelanggaran);
-    if(!vals.length){ pelanggaranTotalEl.textContent=''; return; }
-    const total = vals.reduce((a,b)=>a+b.poin,0);
-    pelanggaranTotalEl.textContent = vals.length + ' pelanggaran dipilih · total ' + total + ' poin untuk input ini';
-  }
-
-  // ---- Save ----
-  function currentAlasanText(){ return sel.alasan === OTHER_VAL ? alasanLainnyaInput.value.trim() : sel.alasan; }
-
-  function updateSaveEnabled(){
-    const petugasOk = !!petugasTerpilih;
-    let ok = sel.kelas && sel.siswa && petugasOk;
-    if(jenisAktif === 'keterlambatan'){
-      ok = ok && sel.alasan && (sel.alasan!==OTHER_VAL || alasanLainnyaInput.value.trim().length>0);
-    } else {
-      ok = ok && Object.keys(selPelanggaran).length>0;
-    }
-    saveBtn.disabled = !ok;
-  }
-
-  function resetFormSetelahSimpan(){
-    sel.kelas=null; sel.siswa=null; sel.nis=null; sel.alasan=null;
-    kelasSearch.value=''; siswaSearch.value=''; alasanSearch.value='';
-    siswaSearch.disabled = true;
-    siswaSearch.placeholder = 'Pilih kelas terlebih dahulu…';
-    nisHint.style.display='none';
-    alasanLainnyaWrap.style.display='none'; alasanLainnyaInput.value='';
-    selPelanggaran = {}; pelanggaranSearch.value='';
-    renderPelanggaranChecklist('');
-    updateSaveEnabled();
-  }
-
-  saveBtn.addEventListener('click', ()=>{
-    if(!sel.kelas || !sel.siswa || !petugasTerpilih) return;
-    saveBtn.disabled = true;
-    saveBtn.textContent = 'Menyimpan…';
-
-    let qs;
-    if(jenisAktif === 'keterlambatan'){
-      const alasanText = currentAlasanText();
-      if(!alasanText){ saveBtn.disabled=false; saveBtn.textContent='Simpan Catatan'; return; }
-      qs = new URLSearchParams({
-        action:'submit', jenis:'keterlambatan',
-        kelas: sel.kelas, nis: sel.nis||'', nama: sel.siswa, alasan: alasanText,
-        simpanAlasanBaru: (sel.alasan===OTHER_VAL && document.getElementById('alasanLainnyaSaveChk').checked) ? '1' : '0',
-        petugas: petugasTerpilih,
-      });
-    } else {
-      const list = Object.values(selPelanggaran);
-      if(!list.length){ saveBtn.disabled=false; saveBtn.textContent='Simpan Catatan'; return; }
-      qs = new URLSearchParams({
-        action:'submit', jenis:'kedisiplinan',
-        kelas: sel.kelas, nis: sel.nis||'', nama: sel.siswa,
-        pelanggaranList: JSON.stringify(list),
-        petugas: petugasTerpilih,
-      });
-    }
-
-    jsonp(API_URL + '?' + qs.toString(),
-      (result)=>{
-        saveBtn.textContent = 'Simpan Catatan';
-        if(!result.ok){ saveBtn.disabled=false; showStatus('err', 'Gagal menyimpan: ' + (result.error || 'tidak diketahui')); return; }
-
-        simpanPetugas(petugasTerpilih);
-        renderPetugasLockedUI(petugasTerpilih);
-
-        const namaSiswa = sel.siswa;
-        const spInfo = result.isNewTier ? (' — mencapai ambang SP ' + result.spLabel + '! Cek sheet Rekap Semester untuk cetak suratnya.') : '.';
-        if(jenisAktif === 'keterlambatan'){
-          showStatus(result.isNewTier ? 'milestone' : 'ok',
-            namaSiswa + ' sudah ' + result.total + 'x terlambat semester ini' + spInfo,
-            result.isNewTier);
-        } else {
-          showStatus(result.isNewTier ? 'milestone' : 'ok',
-            namaSiswa + ' +' + result.totalPoinKaliIni + ' poin (' + result.jumlahPelanggaran + ' pelanggaran), total ' + result.total + ' poin semester ini' + spInfo,
-            result.isNewTier);
-        }
-
-        if(jenisAktif==='keterlambatan' && sel.alasan===OTHER_VAL && document.getElementById('alasanLainnyaSaveChk').checked && state.alasan.indexOf(alasanLainnyaInput.value.trim())===-1){
-          state.alasan.push(alasanLainnyaInput.value.trim());
-        }
-
-        resetFormSetelahSimpan();
-      },
-      (err)=>{
-        saveBtn.disabled=false; saveBtn.textContent='Simpan Catatan';
-        showStatus('err', 'Gagal menyimpan: ' + err.message);
-      }
-    );
-  });
-})();
+const API_URL='https://lmglkxzemtvxcgktiord.supabase.co/functions/v1/kesiswaan-public-intake';
+const els={
+  status:document.getElementById('status'), syncInfo:document.getElementById('syncInfo'), yearBadge:document.getElementById('yearBadge'),
+  classSelect:document.getElementById('classSelect'), studentSearch:document.getElementById('studentSearch'), studentSuggestions:document.getElementById('studentSuggestions'), studentHint:document.getElementById('studentHint'),
+  reasonSelect:document.getElementById('reasonSelect'), customReasonWrap:document.getElementById('customReasonWrap'), customReason:document.getElementById('customReason'),
+  lateFields:document.getElementById('lateFields'), disciplineFields:document.getElementById('disciplineFields'), violationSearch:document.getElementById('violationSearch'), violationList:document.getElementById('violationList'), selectedCount:document.getElementById('selectedCount'),
+  officerInput:document.getElementById('officerInput'), saveBtn:document.getElementById('saveBtn'), clearBtn:document.getElementById('clearBtn'),
+  tabLate:document.getElementById('tabLate'), tabDiscipline:document.getElementById('tabDiscipline'), formTitle:document.getElementById('formTitle'), connectionBadge:document.getElementById('connectionBadge')
+};
+const state={mode:'keterlambatan',classes:[],roster:[],reasons:[],violations:[],student:null,selected:new Set(),ready:false};
+function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function showStatus(type,msg){els.status.className='status show '+type;els.status.textContent=msg}
+async function api(body){
+  const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  let data={};try{data=await res.json()}catch(_){data={ok:false,error:'Respons server tidak valid.'}}
+  if(!res.ok||data.ok===false){const e=new Error(data.error||data.message||'Gagal memproses data.');e.status=res.status;e.data=data;throw e}
+  return data;
+}
+function classStudents(){const cid=els.classSelect.value;return state.roster.filter(x=>x.class_id===cid).sort((a,b)=>a.nama.localeCompare(b.nama,'id'))}
+function resetStudent(){state.student=null;els.studentSearch.value='';els.studentHint.textContent='—';els.studentSuggestions.classList.remove('show')}
+function renderStudents(query=''){
+  const q=query.trim().toLowerCase();let rows=classStudents();if(q)rows=rows.filter(x=>x.nama.toLowerCase().includes(q)||x.nis.toLowerCase().includes(q));rows=rows.slice(0,35);
+  els.studentSuggestions.innerHTML=rows.length?rows.map(x=>`<div class="suggestion" data-id="${esc(x.student_id)}"><b>${esc(x.nama)}</b><small>NIS ${esc(x.nis)}</small></div>`).join(''):'<div class="suggestion"><small>Tidak ada siswa yang cocok.</small></div>';
+  els.studentSuggestions.classList.add('show');
+}
+function selectStudent(id){const s=state.roster.find(x=>x.student_id===id&&x.class_id===els.classSelect.value);if(!s)return;state.student=s;els.studentSearch.value=s.nama;els.studentHint.textContent=`NIS ${s.nis}`;els.studentSuggestions.classList.remove('show')}
+function renderViolations(){
+  const q=els.violationSearch.value.trim().toLowerCase();const rows=state.violations.filter(v=>v.code!=='RINGAN-01').filter(v=>!q||v.nama.toLowerCase().includes(q)||v.tingkat.toLowerCase().includes(q)||v.code.toLowerCase().includes(q));
+  els.violationList.innerHTML=rows.map(v=>`<label class="violation"><input type="checkbox" data-id="${esc(v.id)}" ${state.selected.has(v.id)?'checked':''}/><span><b>${esc(v.nama)}</b><small>${esc(v.tingkat)} • ${esc(v.code)}</small></span><span class="pts">${Number(v.poin)||0} poin</span></label>`).join('')||'<div class="violation"><span></span><span><b>Tidak ada pelanggaran yang cocok.</b></span></div>';
+  els.selectedCount.textContent=`${state.selected.size} dipilih`;
+}
+function setMode(mode){state.mode=mode;const late=mode==='keterlambatan';els.tabLate.classList.toggle('active',late);els.tabDiscipline.classList.toggle('active',!late);els.lateFields.classList.toggle('hidden',!late);els.disciplineFields.classList.toggle('hidden',late);els.formTitle.textContent=late?'Form Keterlambatan':'Form Kedisiplinan';showStatus('ok',late?'Siap mencatat keterlambatan langsung ke CQlass.':'Siap mencatat pelanggaran langsung ke CQlass.')}
+function clearForm(keepClass=true){if(!keepClass)els.classSelect.value='';resetStudent();els.reasonSelect.value='';els.customReason.value='';els.customReasonWrap.classList.remove('show');state.selected.clear();els.violationSearch.value='';renderViolations()}
+function currentReason(){if(els.reasonSelect.value==='Lainnya')return els.customReason.value.trim();return els.reasonSelect.value.trim()}
+async function save(){
+  if(!state.ready)return;const cid=els.classSelect.value;if(!cid)return showStatus('err','Pilih kelas terlebih dahulu.');if(!state.student)return showStatus('err','Pilih siswa dari daftar pencarian.');const petugas=els.officerInput.value.trim();if(!petugas)return showStatus('err','Nama petugas input wajib diisi.');
+  const body={action:'submit',jenis:state.mode,class_id:cid,student_id:state.student.student_id,petugas};
+  if(state.mode==='keterlambatan'){const reason=currentReason();if(!reason)return showStatus('err','Pilih atau tulis alasan keterlambatan.');body.alasan=reason}else{const ids=[...state.selected];if(!ids.length)return showStatus('err','Pilih minimal satu jenis pelanggaran.');body.master_ids=ids}
+  els.saveBtn.disabled=true;els.clearBtn.disabled=true;showStatus('loading','Menyimpan langsung ke CQlass…');
+  try{const out=await api(body);localStorage.setItem('sdcq_petugas',petugas);showStatus('ok',out.message||'Data berhasil tersimpan langsung ke CQlass.');clearForm(true)}catch(err){showStatus(err.status===409?'warn':'err',err.message||'Gagal menyimpan ke CQlass.')}finally{els.saveBtn.disabled=false;els.clearBtn.disabled=false}
+}
+async function load(){
+  try{
+    const data=await api({action:'bootstrap'});state.classes=data.kelas||[];state.roster=data.siswa||[];state.reasons=data.alasan||[];state.violations=data.pelanggaran||[];
+    els.classSelect.innerHTML='<option value="">Pilih kelas</option>'+state.classes.map(c=>`<option value="${esc(c.id)}">${esc(c.nama)}</option>`).join('');
+    els.reasonSelect.innerHTML='<option value="">Pilih alasan</option>'+state.reasons.map(r=>`<option value="${esc(r)}">${esc(r)}</option>`).join('');renderViolations();
+    const savedOfficer=localStorage.getItem('sdcq_petugas');if(savedOfficer)els.officerInput.value=savedOfficer;
+    [els.classSelect,els.officerInput,els.reasonSelect,els.violationSearch,els.clearBtn,els.saveBtn].forEach(x=>x.disabled=false);state.ready=true;
+    els.yearBadge.textContent=data.academic_year||'2026/2027';els.syncInfo.textContent=`Aktif • ${state.classes.length} kelas • ${state.roster.length} siswa • ${state.violations.length} master pelanggaran • ${data.server_date||''}`;
+    showStatus('ok','CQlass terhubung. Data yang disimpan dari form ini langsung muncul pada rekap kedisiplinan/pelanggaran.');
+  }catch(err){els.connectionBadge.style.background='var(--red-bg)';els.connectionBadge.style.color='var(--red)';els.syncInfo.textContent='Gagal terhubung ke CQlass';showStatus('err','Tidak dapat memuat data CQlass. Muat ulang halaman atau hubungi admin jika masalah berlanjut.');}
+}
+els.classSelect.addEventListener('change',()=>{resetStudent();const has=!!els.classSelect.value;els.studentSearch.disabled=!has;els.studentSearch.placeholder=has?'Ketik nama atau NIS siswa…':'Pilih kelas terlebih dahulu'});
+els.studentSearch.addEventListener('focus',()=>renderStudents(els.studentSearch.value));els.studentSearch.addEventListener('input',()=>{state.student=null;els.studentHint.textContent='Pilih siswa dari hasil pencarian';renderStudents(els.studentSearch.value)});
+els.studentSuggestions.addEventListener('click',e=>{const row=e.target.closest('[data-id]');if(row)selectStudent(row.dataset.id)});document.addEventListener('click',e=>{if(!e.target.closest('.field'))els.studentSuggestions.classList.remove('show')});
+els.reasonSelect.addEventListener('change',()=>{els.customReasonWrap.classList.toggle('show',els.reasonSelect.value==='Lainnya');if(els.reasonSelect.value==='Lainnya')els.customReason.focus()});
+els.violationSearch.addEventListener('input',renderViolations);els.violationList.addEventListener('change',e=>{const cb=e.target.closest('input[type=checkbox]');if(!cb)return;cb.checked?state.selected.add(cb.dataset.id):state.selected.delete(cb.dataset.id);renderViolations()});
+els.tabLate.addEventListener('click',()=>setMode('keterlambatan'));els.tabDiscipline.addEventListener('click',()=>setMode('kedisiplinan'));els.clearBtn.addEventListener('click',()=>{clearForm(false);showStatus('ok','Form dibersihkan.')});els.saveBtn.addEventListener('click',save);
+load();
 </script>
 </body>
 </html>
