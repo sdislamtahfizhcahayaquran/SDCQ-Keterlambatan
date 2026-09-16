@@ -1,0 +1,43 @@
+name: Switch form backend to CQlass
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  switch-backend:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Point form directly to CQlass Supabase
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          replacements = {
+            "https://script.google.com/macros/s/AKfycbzBYQZuPCO08hj6x4HInojXRkVl2EOvViHXk_TkyceC5_sfzaNiMjPzhUx45jRCcJiKeg/exec": "https://lmglkxzemtvxcgktiord.supabase.co/functions/v1/kesiswaan-public-entry",
+            "Data tersimpan langsung ke Google Sheet sekolah — tanggal & jam otomatis dari server. Total dihitung akumulasi per semester berjalan.": "Data tersimpan langsung ke CQlass — tanggal & jam otomatis dari server. Total dihitung akumulasi per semester berjalan.",
+            "Gagal memuat data dari server. Pastikan URL Apps Script benar dan sudah di-deploy ulang.": "Gagal memuat data dari CQlass. Silakan muat ulang halaman.",
+            "Gagal menghubungi server. Cek URL Apps Script.": "Gagal menghubungi CQlass.",
+            "Tidak ada yang cocok. Cek sheet \"Jenis Pelanggaran\".": "Tidak ada jenis pelanggaran yang cocok di CQlass.",
+            "Cek sheet Rekap Semester untuk cetak suratnya.": "Cek rekap Kesiswaan di CQlass."
+          }
+          for old, new in replacements.items():
+              s = s.replace(old, new)
+          p.write_text(s, encoding='utf-8')
+      - name: Commit direct CQlass connection
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No change needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Connect keterlambatan form directly to CQlass"
+          git push
